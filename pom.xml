@@ -23,7 +23,7 @@
 		<sonar.organization>wcrasta</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.sources>src/main/java,src/main/resources</sonar.sources>
-		<sonar.coverage.exclusions>**/YahooFantasyApplication.java, **/fantasy/config/**, **/fantasy/domain/**, **/fantasy/dto/**</sonar.coverage.exclusions>
+		<sonar.coverage.exclusions>**/YahooFantasyApplication.java, **/yahoo/config/**, **/yahoo/domain/**, **/yahoo/dto/**</sonar.coverage.exclusions>
 	</properties>
 
 	<scm>
