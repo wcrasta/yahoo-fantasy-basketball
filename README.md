@@ -29,7 +29,7 @@ If you're considering contributing to this project:
 1. Use [SonarLint](https://www.sonarlint.org/) to check for code quality issues.
 
 ## Contributing
-Any contributions to this project would be greatly appreciated. This project is a side hobby for me, so it may take some time for your PR to be merged.
+Any contributions to this project would be greatly appreciated. This project is a side hobby for me, so it may take a few days for your PR to be reviewed.
 
 Contributions are welcome from engineers of all skill levels. If you have any questions or are interested in contributing, please submit a PR and/or e-mail me at warrencrasta@gmail.com.
 
