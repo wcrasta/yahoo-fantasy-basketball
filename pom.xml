@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.warrencrasta</groupId>
 	<artifactId>yahoo-fantasy-basketball</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>yahoo-fantasy-basketball</name>
 	<description>Application for Yahoo Fantasy Basketball Tools</description>
 
@@ -181,18 +181,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>3.0.0-M1</version>
-				<configuration>
-					<goals>pre-integration-test</goals>
-					<preparationGoals>package</preparationGoals>
-					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-					<tagNameFormat>@{project.version}</tagNameFormat>
-					<remoteTagging>true</remoteTagging>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
