@@ -1,0 +1,73 @@
+{
+  "fantasy_content": {
+    "xml:lang": "en-US",
+    "yahoo:uri": "/fantasy/v2/users;use_login=1/games;game_keys=395/leagues",
+    "users": [
+      {
+        "user": {
+          "guid": "CEI45UIFWW5HDG7YOM3BPX72HA",
+          "games": [
+            {
+              "game": {
+                "game_key": "395",
+                "game_id": "395",
+                "name": "Basketball",
+                "code": "nba",
+                "type": "full",
+                "url": "https://basketball.fantasysports.yahoo.com/archive/nba/2019",
+                "season": "2019",
+                "is_registration_over": 1,
+                "is_game_over": 1,
+                "is_offseason": 1,
+                "leagues": [
+                  {
+                    "league": {
+                      "league_key": "395.l.37133",
+                      "league_id": "37133",
+                      "name": "Father Stretch The Floor",
+                      "url": "https://basketball.fantasysports.yahoo.com/2019/nba/37133",
+                      "logo_url": null,
+                      "draft_status": "postdraft",
+                      "num_teams": 14,
+                      "edit_key": "2020-03-08",
+                      "weekly_deadline": "intraday",
+                      "league_update_timestamp": "1591891837",
+                      "scoring_type": "headone",
+                      "league_type": "private",
+                      "renew": null,
+                      "renewed": "402_102240",
+                      "iris_group_chat_id": null,
+                      "allow_add_to_dl_extra_pos": 0,
+                      "is_pro_league": "0",
+                      "is_cash_league": "0",
+                      "current_week": "19",
+                      "start_week": "1",
+                      "start_date": "2019-10-22",
+                      "end_week": "19",
+                      "end_date": "2020-03-08",
+                      "is_finished": 1,
+                      "game_code": "nba",
+                      "season": "2019"
+                    }
+                  }
+                ],
+                "leagues:attributes": {
+                  "count": 1
+                }
+              }
+            }
+          ],
+          "games:attributes": {
+            "count": 1
+          }
+        }
+      }
+    ],
+    "@time": "25.711059570312ms",
+    "@copyright": "Data provided by Yahoo! and STATS, LLC",
+    "@refresh_rate": "60",
+    "users:attributes": {
+      "count": 1
+    }
+  }
+}

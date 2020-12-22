@@ -1,0 +1,113 @@
+{
+  "fantasyContent": {
+    "users": null,
+    "league": {
+      "name": "Father Stretch The Floor",
+      "leagueKey": "395.l.37133",
+      "currentWeek": "19",
+      "startWeek": "1",
+      "teams": [
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.1",
+            "name": "Big Doncic Energy",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.2",
+            "name": "TBD",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.3",
+            "name": "Knicks Tape",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.4",
+            "name": "Day to Davis",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.5",
+            "name": "Free Jeremy Lin",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.6",
+            "name": "Copycat Killer",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.7",
+            "name": "R@m R@nch 7",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.8",
+            "name": "Curry's Harden for 3",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.9",
+            "name": "I Suck at Fantasy",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.10",
+            "name": "Waiver Wire Heroes",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.11",
+            "name": "RJ Barrett 50. Cal",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.12",
+            "name": "Play w/ my Dinwiddie",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.13",
+            "name": "Air Buddy",
+            "teamStats": null
+          }
+        },
+        {
+          "team": {
+            "teamKey": "395.l.37133.t.14",
+            "name": "YOU REACH I TEACH",
+            "teamStats": null
+          }
+        }
+      ],
+      "scoreboard": null,
+      "settings": null
+    }
+  }
+}

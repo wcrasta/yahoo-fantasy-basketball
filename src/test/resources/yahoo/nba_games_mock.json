@@ -1,0 +1,53 @@
+{
+  "fantasy_content": {
+    "xml:lang": "en-US",
+    "yahoo:uri": "/fantasy/v2/users;use_login=1/games;game_codes=nba",
+    "users": [
+      {
+        "user": {
+          "guid": "CEI45UIFWW5HDG7YOM3BPX72HA",
+          "games": [
+            {
+              "game": {
+                "game_key": "395",
+                "game_id": "395",
+                "name": "Basketball",
+                "code": "nba",
+                "type": "full",
+                "url": "https://basketball.fantasysports.yahoo.com/archive/nba/2019",
+                "season": "2019",
+                "is_registration_over": 1,
+                "is_game_over": 1,
+                "is_offseason": 1
+              }
+            },
+            {
+              "game": {
+                "game_key": "402",
+                "game_id": "402",
+                "name": "Basketball",
+                "code": "nba",
+                "type": "full",
+                "url": "https://basketball.fantasysports.yahoo.com/nba",
+                "season": "2020",
+                "is_registration_over": 0,
+                "is_game_over": 0,
+                "is_offseason": 0,
+                "is_live_draft_lobby_active": 1
+              }
+            }
+          ],
+          "games:attributes": {
+            "count": 2
+          }
+        }
+      }
+    ],
+    "@time": "25.664091110229ms",
+    "@copyright": "Data provided by Yahoo! and STATS, LLC",
+    "@refresh_rate": "60",
+    "users:attributes": {
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Weekly Matchups">
+  <meta name="keywords" content="Fantasy Basketball, Yahoo">
+  <meta name="author" content="Warren Crasta">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Weekly Matchups</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png"/>
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css"
+        integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ=="
+        crossorigin="anonymous"/>
+  <link href="/css/weekly-matchups.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/signin">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/weekly-matchups">Weekly Matchups<span
+            class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript: document.logoutForm.submit()">Log Out</a>
+        <form name="logoutForm" th:action="@{/logout}" method="post" hidden="hidden">
+          <input type="submit" value="Log Out"/>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="d-flex" id="wrapper">
+
+  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">Pick a Team</div>
+    <div class="list-group list-group-flush">
+
+      <select class="list-group-item list-group-item-action bg-light" name="season"
+              id="season"
+              required="required">
+        <option disabled="disabled" selected="selected">Select a Season</option>
+        <option th:each="season : ${seasons}" th:value="${season.id}"
+                th:text="${season.year}"></option>
+      </select>
+
+      <select class="list-group-item list-group-item-action bg-light" name="league"
+              id="league"
+              required="required">
+        <option disabled="disabled" selected="selected">Select a League</option>
+      </select>
+
+      <select class="list-group-item list-group-item-action bg-light" name="week" id="week"
+              required="required">
+        <option disabled="disabled" selected="selected">Select a Week</option>
+      </select>
+
+      <select class="list-group-item list-group-item-action bg-light" name="team"
+              id="team"
+              required="required">
+        <option disabled="disabled" selected="selected">Select a Team</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="page-content-wrapper">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+    </nav>
+
+    <div class="container-fluid">
+      <h1 class="mt-4">Weekly Matchups</h1>
+      <p>Make selections from the dropdowns in the menu and choose a team to see how that team
+        compares against other teams for a given week. </p>
+      <div class="table-responsive">
+        <table id="matchups" class="table table-bordered table-hover" style="width:100%">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Opponent</th>
+            <th scope="col">Categories Won</th>
+            <th scope="col">Categories Lost</th>
+            <th scope="col">Categories Tied</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="table-secondary text-center">
+            <td colspan="4">Select a team to view weekly matchups.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+        integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+        crossorigin="anonymous"></script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js"
+    integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A=="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+<script src="/js/weekly-matchups.js"></script>
+</body>
+</html>
+

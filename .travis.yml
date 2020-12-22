@@ -1,0 +1,38 @@
+language: java
+
+jdk:
+  - openjdk11
+
+addons:
+  sonarcloud:
+    organization: "wcrasta"
+    token:
+      secure: "VGUbVx3v5X7IKT5kP4g1aBXGZiu23RAttTEKKf/UVNgt46IljYuomk54uOtI1CMIgb8JkooCgaepaIAaJaBytmsHoWhnoeqN2KvbJhQwVI2P/HO04CP9qLY7FTwFXUqDcZ6BBw/q33+dg+9q0l201zLMxjg7ZWkY1Fm8qc9aKYN7RF4LBS54Xlh6rZmP0bnXcVI3VqzLPEsQfp00Q4x06srprLKLwLcaVs7vArJhs4PGD/0OsHl1K0RjhABlnQbIuhtgX22qwkxxvKvkVCscOZHp+BqwsFZRmqV/9Bc3VqtdH/H/G+q0GGAkF5JSmtPCWxJ5sSxswh/khNNiHBigESkb4DKnK6IMLuap3kYGyvBAGnGZr6HxK2CwupJjg+KghvARQFmteUbXQfwwiMQ//B5lxIC7J3ZV0gp2gG7nUUsjX8xnwdv7wYqI+kidD4mzHHc17VI1RCFde2ydlkbdZTXHbYe/8xi/bj1gPVU3gRWkz2RHuPEiVQmB07Q9MNSt9J9C01REjtPdCXWGWHVI/DxW+EqKTTCL1uPPb8tngGoW1zW+DuibfBcd7zwXF4aP1/18NQddf0u/sEKTlUZt9Pwuw0WAlSQJDLSFss3K4BTNGzywzhrnq5BOiKnq5Xk0DNC2GSdQqzlQnQkrl8qoKcolAkacgzpP9+xElcIvozQ="
+script:
+  - mvn clean verify sonar:sonar -Pcoverage
+
+before_deploy:
+  - zip -r yahoo-fantasy-basketball *
+  - mkdir -p dpl_cd_upload
+  - mv yahoo-fantasy-basketball.zip dpl_cd_upload/yahoo-fantasy-basketball.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on: &2
+      repo: wcrasta/yahoo-fantasy-basketball
+    bucket: yahoo-fantasy
+    region: us-east-2
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: yahoo-fantasy
+    key: yahoo-fantasy-basketball.zip
+    bundle_type: zip
+    application: yahoo-fantasy-basketball
+    region: us-east-2
+    deployment_group: travisci
+    on: *2
