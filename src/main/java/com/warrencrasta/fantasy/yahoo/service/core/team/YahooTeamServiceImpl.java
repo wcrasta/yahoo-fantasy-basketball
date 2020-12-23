@@ -55,6 +55,9 @@ public class YahooTeamServiceImpl implements TeamService {
 
         for (StatWrapperDTO statWrapperDTO : statDTOs) {
           StatDTO statDTO = statWrapperDTO.getStat();
+          if (statDTO.getValue() != null && statDTO.getValue().equals("-")) {
+            statDTO.setValue("0");
+          }
 
           for (StatCategory relevantCategory : relevantCategories) {
             if (relevantCategory.getId().equals(statDTO.getStatId())) {
