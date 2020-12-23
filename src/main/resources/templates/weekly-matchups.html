@@ -18,7 +18,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css"
         integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ=="
         crossorigin="anonymous"/>
-  <link href="/css/weekly-matchups.css" rel="stylesheet">
+  <link
+      href="/css/weekly-matchups.css"
+      rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -56,31 +58,42 @@
   <div class="bg-light border-right" id="sidebar-wrapper">
     <div class="sidebar-heading">Pick a Team</div>
     <div class="list-group list-group-flush">
+      <div class="list-group-item list-group-item-action bg-light">
+        <select name="season"
+                id="season"
+                required="required"
+                style="width: 100%">
+          <option disabled="disabled" selected="selected">Select a Season</option>
+          <option th:each="season : ${seasons}" th:value="${season.id}"
+                  th:text="${season.year}"></option>
+        </select>
+      </div>
 
-      <select class="list-group-item list-group-item-action bg-light" name="season"
-              id="season"
-              required="required">
-        <option disabled="disabled" selected="selected">Select a Season</option>
-        <option th:each="season : ${seasons}" th:value="${season.id}"
-                th:text="${season.year}"></option>
-      </select>
+      <div class="list-group-item list-group-item-action bg-light">
+        <select name="league"
+                id="league"
+                required="required"
+                style="width: 100%">
+          <option disabled="disabled" selected="selected">Select a League</option>
+        </select>
+      </div>
 
-      <select class="list-group-item list-group-item-action bg-light" name="league"
-              id="league"
-              required="required">
-        <option disabled="disabled" selected="selected">Select a League</option>
-      </select>
+      <div class="list-group-item list-group-item-action bg-light">
+        <select name="week" id="week"
+                required="required"
+                style="width: 100%">
+          <option disabled="disabled" selected="selected">Select a Week</option>
+        </select>
+      </div>
 
-      <select class="list-group-item list-group-item-action bg-light" name="week" id="week"
-              required="required">
-        <option disabled="disabled" selected="selected">Select a Week</option>
-      </select>
-
-      <select class="list-group-item list-group-item-action bg-light" name="team"
-              id="team"
-              required="required">
-        <option disabled="disabled" selected="selected">Select a Team</option>
-      </select>
+      <div class="list-group-item list-group-item-action bg-light">
+        <select name="team"
+                id="team"
+                required="required"
+                style="width: 100%">
+          <option disabled="disabled" selected="selected">Select a Team</option>
+        </select>
+      </div>
     </div>
   </div>
 
