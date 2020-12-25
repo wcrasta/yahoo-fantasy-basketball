@@ -1,0 +1,1665 @@
+{
+	"info": {
+		"_postman_id": "10a9e699-68ef-42ea-956d-ef48390193f8",
+		"name": "Yahoo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Get Authorization URL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.login.yahoo.com/oauth2/request_auth?client_id={{client_id}}&redirect_uri={{redirect_uri}}&response_type=code",
+							"protocol": "https",
+							"host": [
+								"api",
+								"login",
+								"yahoo",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"request_auth"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}"
+								},
+								{
+									"key": "response_type",
+									"value": "code"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+									"pm.collectionVariables.set(\"refresh_token\", jsonData.refresh_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "{{code}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.login.yahoo.com/oauth2/get_token",
+							"protocol": "https",
+							"host": [
+								"api",
+								"login",
+								"yahoo",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"get_token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* global pm */",
+									"",
+									"/**",
+									" * Test script to run after every API request.",
+									" *",
+									" * Used to automatically pick up on a refreshed access token and store the new values.",
+									" */",
+									"",
+									"const updateAccessToken = () => {",
+									"  // only store a new value if the request was made to the right endpoint",
+									"  const isRightAPI = pm.request.url.path.join('/') === 'oauth2/get_token'",
+									"  if (!isRightAPI) { return }",
+									"",
+									"  // only store the new value of there actually was a request body",
+									"  const hasBody = !!pm.request.body",
+									"  if (!hasBody) { return }",
+									"",
+									"  // only store the new value if the body was urlencoded",
+									"  const isUrlEncoded = pm.request.body.mode === 'urlencoded'",
+									"  if (!isUrlEncoded) { return }",
+									"",
+									"  // only store the new value if the body had a grant type",
+									"  const grantType = pm.request.body.urlencoded.filter(param => param.key === 'grant_type')[0]",
+									"  const hasGrantType = !!grantType",
+									"  if (!hasGrantType) { return }",
+									"",
+									"  // only store the new value if the grant type was \"refresh_token\"",
+									"  const isRefreshTokenRequest = grantType.value === 'refresh_token'",
+									"  if (!isRefreshTokenRequest) { return }",
+									"",
+									"  // only store the new value if the response has an access token",
+									"  const response = pm.response.json()",
+									"  const hasAccessToken = !!response.access_token",
+									"  if (!hasAccessToken) { return }",
+									"",
+									"  // determine when this token is set to expire at",
+									"  const newExpiresAt = Date.now() + response.expires_in * 1000",
+									"  // store the new values",
+									"  pm.collectionVariables.set(\"access_token\", response.access_token)",
+									"  pm.collectionVariables.set(\"refresh_token\", response.refresh_token)",
+									"  pm.collectionVariables.set(\"expires_at\", newExpiresAt)",
+									"}",
+									"",
+									"updateAccessToken()"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://api.login.yahoo.com/oauth2/get_token",
+							"protocol": "https",
+							"host": [
+								"api",
+								"login",
+								"yahoo",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"get_token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "League",
+			"item": [
+				{
+					"name": "Metadata",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/metadata?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"metadata"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Settings",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/settings?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Standings",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/standings?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"standings"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Scoreboard",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/scoreboard?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"scoreboard"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Team",
+			"item": [
+				{
+					"name": "Teams",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/teams?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"teams"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Team",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Season Stats",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id/stats;type=season?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id",
+								"stats;type=season"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Date Stats",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id/stats;type=date;date=2020-01-01?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id",
+								"stats;type=date;date=2020-01-01"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Matchups",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id/matchups?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id",
+								"matchups"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Roster",
+			"item": [
+				{
+					"name": "Roster",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id/roster?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id",
+								"roster"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Roster on date",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/team/:id/roster;date=2020-01-01?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"team",
+								":id",
+								"roster;date=2020-01-01"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240.t.14"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "Player within league context",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:leagueId/players;player_keys=402.p.4912?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":leagueId",
+								"players;player_keys=402.p.4912"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "leagueId",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Stats within league context",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:leagueId/players;player_keys=402.p.4912/stats?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":leagueId",
+								"players;player_keys=402.p.4912",
+								"stats"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "leagueId",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Transactions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/league/:id/transactions?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"league",
+								":id",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "402.l.102240"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"users;use_login=1"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Info",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.login.yahoo.com/openid/v1/userinfo",
+							"protocol": "https",
+							"host": [
+								"api",
+								"login",
+								"yahoo",
+								"com"
+							],
+							"path": [
+								"openid",
+								"v1",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Leagues",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games?format=json_f",
+							"protocol": "https",
+							"host": [
+								"fantasysports",
+								"yahooapis",
+								"com"
+							],
+							"path": [
+								"fantasy",
+								"v2",
+								"users;use_login=1",
+								"games"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json_f"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "tokenType",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"/* global pm */",
+							"",
+							"/**",
+							" * Pre-request script ran before every API request.",
+							" *",
+							" * Used to notify users that their access token has expired",
+							" */",
+							"",
+							"// determine if the Access Token has expired",
+							"const expiresAt = pm.collectionVariables.get('expires_at')",
+							"const expired = Date.now() > Number(expiresAt)",
+							"",
+							"// determine if the user has auto-refresh enabled",
+							"const autoRefresh = String(pm.collectionVariables.get('enable_auto_refresh_access_token')) === 'true'",
+							"",
+							"const clientId = pm.environment.get('client_id')",
+							"const clientSecret = pm.environment.get('client_secret')",
+							"// determine if we have all the client credentials needed",
+							"const hasClientId = !!String(clientId)",
+							"const hasClientSecret = !!String(clientSecret)",
+							"const hasRefreshToken = !!String(pm.collectionVariables.get('refresh_token')).length",
+							"const hasAllCredentials = hasClientId && hasClientSecret && hasRefreshToken",
+							"// if the access token expired and auto refresh has been set, use the refresh",
+							"// token to create a new access token",
+							"const base64encode = btoa(clientId + \":\" + clientSecret)",
+							"if (expired && autoRefresh && hasAllCredentials) {",
+							"  // send a new API request to refresh the access token",
+							"  pm.sendRequest({",
+							"    url: 'https://api.login.yahoo.com/oauth2/get_token',",
+							"    method: 'POST',",
+							"    header: {",
+							"    'Content-Type': 'application/x-www-form-urlencoded',",
+							"    'Authorization': 'Basic ' + base64encode",
+							"    },",
+							"    body: {",
+							"      mode: 'urlencoded',",
+							"      urlencoded: [",
+							"        { key: 'redirect_uri', value: 'oob', disabled: false },",
+							"        { key: 'refresh_token', value: pm.collectionVariables.get('refresh_token'), disabled: false },",
+							"        { key: 'grant_type', value: 'refresh_token', disabled: false }",
+							"      ]",
+							"    }",
+							"  }, function (error, response) {",
+							"    if (error || response.json().error) {",
+							"      // if an error occured, log the error and raise a message to the user.",
+							"      console.log('Could not refresh the access token')",
+							"      console.log(error)",
+							"      console.log(response.json())",
+							"      throw new Error('Could not refresh the access token. Check the console for more details.')",
+							"    } else {",
+							"      // otherwise, fetch the new access token and store it",
+							"      const data = response.json()",
+							"",
+							"      // determine when this token is set to expire at",
+							"      const newExpiresAt = Date.now() + data.expires_in * 1000",
+							"      // store the new variables",
+							"      pm.collectionVariables.set('access_token', data.access_token)",
+							"      pm.collectionVariables.set('refresh_token', data.refresh_token)",
+							"      pm.collectionVariables.set('expires_at', newExpiresAt)",
+							"    }",
+							"  })",
+							"} else if (expired) {",
+							"  // otherwise, throw a message to the user if the access token expired.",
+							"  throw new Error('Access token expired. Please use the \"Authorization => Refresh access token\" API to request a new token.')",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{client_id}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "code",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "expires_at",
+			"value": 0
+		},
+		{
+			"key": "enable_auto_refresh_access_token",
+			"value": "true"
+		}
+	]
+}

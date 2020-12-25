@@ -27,6 +27,7 @@ If you liked this project, please consider starring the repository.
 If you're considering contributing to this project:
 1. Use the [Google Java Format plugin](https://github.com/google/google-java-format) for formatting your code.
 1. Use [SonarLint](https://www.sonarlint.org/) to check for code quality issues.
+1. A Postman collection for the Yahoo Fantasy Sports API is included in the root directory of this project. It might be helpful to you.
 
 ## Contributing
 Any contributions to this project would be greatly appreciated. This project is a side hobby for me, so it may take a few days for your PR to be reviewed.
