@@ -39,6 +39,7 @@ Contributions are welcome from engineers of all skill levels. If you have any qu
 * **Back End:** Java Spring Boot & Spring Framework for API. Spring Security for OAuth. MapStruct, Lombok
 * **Front End:** Thymeleaf, Bootstrap, HTML, CSS, JavaScript/jQuery, DataTables
 * **Deployment:** Travis CI for CI/CD pipeline. AWS S3 to host artifact. AWS CodeDeploy as deployment agent. Bash script to run the artifact as a process on AWS EC2 instance. AWS IAM to manage permissions among AWS services.
+* **Monitoring:** Google Analytics
 * **Hosting:** Namecheap to host domain name. AWS EC2 to host the Tomcat web server on the cloud
 * **Code Quality:** Sonar, Checkstyle for code style
 * **Other:** Git for version control, Apache Maven for build management
