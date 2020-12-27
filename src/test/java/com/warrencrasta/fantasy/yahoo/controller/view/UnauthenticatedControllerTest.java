@@ -35,4 +35,14 @@ class UnauthenticatedControllerTest {
   void testGetSignInPage() throws Exception {
     mockMvc.perform(get("/signin")).andExpect(status().isOk()).andExpect(view().name("signin"));
   }
+
+  @Test
+  void testGetExamplesPage() throws Exception {
+    mockMvc.perform(get("/examples")).andExpect(status().isOk()).andExpect(view().name("examples"));
+  }
+
+  @Test
+  void testGetContactPage() throws Exception {
+    mockMvc.perform(get("/contact")).andExpect(status().isOk()).andExpect(view().name("contact"));
+  }
 }

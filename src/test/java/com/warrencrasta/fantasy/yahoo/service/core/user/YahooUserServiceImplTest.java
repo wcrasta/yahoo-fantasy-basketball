@@ -33,7 +33,7 @@ class YahooUserServiceImplTest {
   private YahooUserServiceImpl yahooUserService;
 
   @BeforeEach
-  void init() {
+  void setUp() {
     yahooUserService = new YahooUserServiceImpl(yahooClient, seasonMapper, leagueMapper);
   }
 

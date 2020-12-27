@@ -5,6 +5,7 @@ import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -29,12 +30,12 @@ public class YahooClient {
             .buildAndExpand(uriVariables)
             .toUri();
 
-    return webClient
+    return Objects.requireNonNull(webClient
         .get()
         .uri(fullFantasyUri)
         .retrieve()
         .bodyToMono(FantasyResponseDTO.class)
-        .block()
+        .block())
         .getFantasyContent();
   }
 

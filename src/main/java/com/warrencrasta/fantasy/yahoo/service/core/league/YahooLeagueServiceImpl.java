@@ -31,9 +31,10 @@ public class YahooLeagueServiceImpl implements LeagueService {
   public LeagueInfoDTO getLeagueInfo(String leagueId) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    String path = "/league/{league_key}/teams";
+    String resourceUriFragment = "/league/{league_key}/teams";
 
-    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, path);
+    FantasyContentDTO fantasyContent =
+        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
     LeagueDTO leagueDTO = fantasyContent.getLeague();
     List<YahooTeam> teams = extractTeams(leagueDTO);
     List<String> weeks = extractWeeks(leagueDTO);
@@ -49,13 +50,14 @@ public class YahooLeagueServiceImpl implements LeagueService {
   public List<StatCategory> getRelevantCategories(String leagueId) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    String path = "/league/{league_key}/settings";
+    String resourceUriFragment = "/league/{league_key}/settings";
 
-    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, path);
+    FantasyContentDTO fantasyContent =
+        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
     List<StatWrapperDTO> statWrapperDTOs =
         fantasyContent.getLeague().getSettings().getStatCategories().getStats();
 
-    List<StatCategory> statCategories = new ArrayList<>();
+    List<StatCategory> relevantCategories = new ArrayList<>();
     for (StatWrapperDTO statWrapperDTO : statWrapperDTOs) {
       StatDTO statDTO = statWrapperDTO.getStat();
       if (statDTO.getIsOnlyDisplayStat() != null) {
@@ -66,10 +68,11 @@ public class YahooLeagueServiceImpl implements LeagueService {
       statCategory.setId(statDTO.getStatId());
       statCategory.setName(statDTO.getDisplayName());
       statCategory.setBad(statDTO.getSortOrder().equals("0"));
-      statCategories.add(statCategory);
+
+      relevantCategories.add(statCategory);
     }
 
-    return statCategories;
+    return relevantCategories;
   }
 
   private List<YahooTeam> extractTeams(LeagueDTO leagueDTO) {

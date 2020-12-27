@@ -1,0 +1,842 @@
+[
+  {
+    "id": "395.l.37133.t.1",
+    "name": "Big Doncic Energy",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".463",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".826",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "61",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "495",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "173",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "118",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "42",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "14",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "70",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.2",
+    "name": "TBD",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".399",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".758",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "37",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "386",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "167",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "98",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "27",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "22",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "62",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.3",
+    "name": "Knicks Tape",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".489",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".738",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "61",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "667",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "193",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "134",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "31",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "20",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "88",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.13",
+    "name": "Air Buddy",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".438",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".806",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "70",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "491",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "181",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "96",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "34",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "15",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "65",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.4",
+    "name": "Day to Davis",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".441",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".730",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "58",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "451",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "168",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "73",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "36",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "20",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "56",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.12",
+    "name": "Play w/ my Dinwiddie",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".449",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".799",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "38",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "485",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "140",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "107",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "22",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "9",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "69",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.5",
+    "name": "Free Jeremy Lin",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".448",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".748",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "26",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "430",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "193",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "126",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "32",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "22",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "81",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.11",
+    "name": "RJ Barrett 50. Cal",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".428",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".718",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "46",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "457",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "204",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "93",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "28",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "18",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "76",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.6",
+    "name": "Copycat Killer",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".481",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".750",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "46",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "567",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "225",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "108",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "34",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "25",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "73",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.10",
+    "name": "Waiver Wire Heroes",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".422",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".806",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "23",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "309",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "181",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "68",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "28",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "14",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "59",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.7",
+    "name": "R@m R@nch 7",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".499",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".760",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "38",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "443",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "210",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "77",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "26",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "23",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "56",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.9",
+    "name": "I Suck at Fantasy",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".493",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".823",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "32",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "397",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "159",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "69",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "29",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "29",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "42",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.8",
+    "name": "Curry's Harden for 3",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".450",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".802",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "47",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "520",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "169",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "109",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "28",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "23",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "81",
+        "bad": true
+      }
+    ]
+  },
+  {
+    "id": "395.l.37133.t.14",
+    "name": "YOU REACH I TEACH",
+    "statCategories": [
+      {
+        "id": "5",
+        "name": "FG%",
+        "value": ".467",
+        "bad": false
+      },
+      {
+        "id": "8",
+        "name": "FT%",
+        "value": ".783",
+        "bad": false
+      },
+      {
+        "id": "10",
+        "name": "3PTM",
+        "value": "39",
+        "bad": false
+      },
+      {
+        "id": "12",
+        "name": "PTS",
+        "value": "402",
+        "bad": false
+      },
+      {
+        "id": "15",
+        "name": "REB",
+        "value": "202",
+        "bad": false
+      },
+      {
+        "id": "16",
+        "name": "AST",
+        "value": "71",
+        "bad": false
+      },
+      {
+        "id": "17",
+        "name": "ST",
+        "value": "29",
+        "bad": false
+      },
+      {
+        "id": "18",
+        "name": "BLK",
+        "value": "23",
+        "bad": false
+      },
+      {
+        "id": "19",
+        "name": "TO",
+        "value": "60",
+        "bad": true
+      }
+    ]
+  }
+]

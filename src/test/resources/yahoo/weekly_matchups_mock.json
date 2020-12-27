@@ -1,0 +1,226 @@
+[
+  {
+    "opponent": "Big Doncic Energy",
+    "categoriesWon": [
+      "FG%",
+      "REB",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FT%",
+      "3PTM",
+      "PTS",
+      "AST",
+      "ST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "TBD",
+    "categoriesWon": [
+      "FG%",
+      "FT%",
+      "3PTM",
+      "PTS",
+      "REB",
+      "ST",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "AST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Knicks Tape",
+    "categoriesWon": [
+      "FT%",
+      "REB",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FG%",
+      "3PTM",
+      "PTS",
+      "AST",
+      "ST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Air Buddy",
+    "categoriesWon": [
+      "FG%",
+      "REB",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FT%",
+      "3PTM",
+      "PTS",
+      "AST",
+      "ST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Day to Davis",
+    "categoriesWon": [
+      "FG%",
+      "FT%",
+      "REB",
+      "BLK"
+    ],
+    "categoriesLost": [
+      "3PTM",
+      "PTS",
+      "AST",
+      "ST",
+      "TO"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Play w/ my Dinwiddie",
+    "categoriesWon": [
+      "FG%",
+      "3PTM",
+      "REB",
+      "ST",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FT%",
+      "PTS",
+      "AST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Free Jeremy Lin",
+    "categoriesWon": [
+      "FG%",
+      "FT%",
+      "3PTM",
+      "REB",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "PTS",
+      "AST",
+      "ST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "RJ Barrett 50. Cal",
+    "categoriesWon": [
+      "FG%",
+      "FT%",
+      "ST",
+      "BLK",
+      "TO"
+    ],
+    "categoriesLost": [
+      "3PTM",
+      "PTS",
+      "REB",
+      "AST"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Copycat Killer",
+    "categoriesWon": [
+      "FT%",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FG%",
+      "3PTM",
+      "PTS",
+      "REB",
+      "AST",
+      "ST",
+      "BLK"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "Waiver Wire Heroes",
+    "categoriesWon": [
+      "FG%",
+      "3PTM",
+      "PTS",
+      "REB",
+      "AST",
+      "ST",
+      "BLK"
+    ],
+    "categoriesLost": [
+      "FT%",
+      "TO"
+    ],
+    "categoriesTied": []
+  },
+  {
+    "opponent": "R@m R@nch 7",
+    "categoriesWon": [
+      "FT%",
+      "3PTM",
+      "ST"
+    ],
+    "categoriesLost": [
+      "FG%",
+      "PTS",
+      "REB",
+      "AST",
+      "TO"
+    ],
+    "categoriesTied": [
+      "BLK"
+    ]
+  },
+  {
+    "opponent": "I Suck at Fantasy",
+    "categoriesWon": [
+      "3PTM",
+      "PTS",
+      "REB",
+      "AST"
+    ],
+    "categoriesLost": [
+      "FG%",
+      "FT%",
+      "BLK",
+      "TO"
+    ],
+    "categoriesTied": [
+      "ST"
+    ]
+  },
+  {
+    "opponent": "Curry's Harden for 3",
+    "categoriesWon": [
+      "FG%",
+      "REB",
+      "ST",
+      "TO"
+    ],
+    "categoriesLost": [
+      "FT%",
+      "3PTM",
+      "PTS",
+      "AST"
+    ],
+    "categoriesTied": [
+      "BLK"
+    ]
+  }
+]

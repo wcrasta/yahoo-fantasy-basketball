@@ -29,9 +29,8 @@ public class LeagueController {
   }
 
   @GetMapping("/{leagueId}/weekly-matchups")
-  public List<MatchupDTO> getWeeklyMatchups(@PathVariable String leagueId,
-      @RequestParam String week, @RequestParam String teamId) {
+  public List<MatchupDTO> getWeeklyMatchups(
+      @PathVariable String leagueId, @RequestParam String week, @RequestParam String teamId) {
     return scoreboardService.getWeeklyMatchups(leagueId, week, teamId);
   }
-
 }

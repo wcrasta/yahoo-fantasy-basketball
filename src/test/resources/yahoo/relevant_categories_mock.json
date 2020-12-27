@@ -1,0 +1,56 @@
+[
+  {
+    "id": "5",
+    "name": "FG%",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "8",
+    "name": "FT%",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "10",
+    "name": "3PTM",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "12",
+    "name": "PTS",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "15",
+    "name": "REB",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "16",
+    "name": "AST",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "17",
+    "name": "ST",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "18",
+    "name": "BLK",
+    "value": null,
+    "bad": false
+  },
+  {
+    "id": "19",
+    "name": "TO",
+    "value": null,
+    "bad": true
+  }
+]

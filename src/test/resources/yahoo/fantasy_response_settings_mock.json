@@ -1,0 +1,318 @@
+{
+    "fantasy_content": {
+        "xml:lang": "en-US",
+        "yahoo:uri": "/fantasy/v2/league/395.l.37133/settings",
+        "league": {
+            "league_key": "395.l.37133",
+            "league_id": "37133",
+            "name": "Father Stretch The Floor",
+            "url": "https://basketball.fantasysports.yahoo.com/2019/nba/37133",
+            "logo_url": null,
+            "draft_status": "postdraft",
+            "num_teams": 14,
+            "edit_key": "2020-03-08",
+            "weekly_deadline": "intraday",
+            "league_update_timestamp": "1591891837",
+            "scoring_type": "headone",
+            "league_type": "private",
+            "renew": null,
+            "renewed": "402_102240",
+            "iris_group_chat_id": null,
+            "allow_add_to_dl_extra_pos": 0,
+            "is_pro_league": "0",
+            "is_cash_league": "0",
+            "current_week": "19",
+            "start_week": "1",
+            "start_date": "2019-10-22",
+            "end_week": "19",
+            "end_date": "2020-03-08",
+            "is_finished": 1,
+            "game_code": "nba",
+            "season": "2019",
+            "settings": {
+                "draft_type": "live",
+                "is_auction_draft": "1",
+                "scoring_type": "headone",
+                "uses_playoff": "0",
+                "waiver_type": "R",
+                "waiver_rule": "all",
+                "uses_faab": "0",
+                "draft_time": "1569189600",
+                "draft_pick_time": "60",
+                "post_draft_players": "W",
+                "max_teams": "14",
+                "waiver_time": "2",
+                "trade_end_date": "2020-02-26",
+                "trade_ratify_type": "commish",
+                "trade_reject_time": "3",
+                "player_pool": "ALL",
+                "cant_cut_list": "yahoo",
+                "sendbird_channel_url": "da06499af0607cc1a7b207525bf7b651",
+                "roster_positions": [
+                    {
+                        "roster_position": {
+                            "position": "PG",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "SG",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "G",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "SF",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "PF",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "F",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "C",
+                            "position_type": "P",
+                            "count": 1
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "Util",
+                            "position_type": "P",
+                            "count": 3
+                        }
+                    },
+                    {
+                        "roster_position": {
+                            "position": "BN",
+                            "count": 3
+                        }
+                    }
+                ],
+                "stat_categories": {
+                    "stats": [
+                        {
+                            "stat": {
+                                "stat_id": 9004003,
+                                "enabled": "1",
+                                "name": "Field Goals Made / Field Goals Attempted",
+                                "display_name": "FGM/A",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P",
+                                            "is_only_display_stat": "1"
+                                        }
+                                    }
+                                ],
+                                "is_only_display_stat": "1"
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 5,
+                                "enabled": "1",
+                                "name": "Field Goal Percentage",
+                                "display_name": "FG%",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 9007006,
+                                "enabled": "1",
+                                "name": "Free Throws Made / Free Throws Attempted",
+                                "display_name": "FTM/A",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P",
+                                            "is_only_display_stat": "1"
+                                        }
+                                    }
+                                ],
+                                "is_only_display_stat": "1"
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 8,
+                                "enabled": "1",
+                                "name": "Free Throw Percentage",
+                                "display_name": "FT%",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 10,
+                                "enabled": "1",
+                                "name": "3-point Shots Made",
+                                "display_name": "3PTM",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 12,
+                                "enabled": "1",
+                                "name": "Points Scored",
+                                "display_name": "PTS",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 15,
+                                "enabled": "1",
+                                "name": "Total Rebounds",
+                                "display_name": "REB",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 16,
+                                "enabled": "1",
+                                "name": "Assists",
+                                "display_name": "AST",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 17,
+                                "enabled": "1",
+                                "name": "Steals",
+                                "display_name": "ST",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 18,
+                                "enabled": "1",
+                                "name": "Blocked Shots",
+                                "display_name": "BLK",
+                                "sort_order": "1",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "stat": {
+                                "stat_id": 19,
+                                "enabled": "1",
+                                "name": "Turnovers",
+                                "display_name": "TO",
+                                "sort_order": "0",
+                                "position_type": "P",
+                                "stat_position_types": [
+                                    {
+                                        "stat_position_type": {
+                                            "position_type": "P"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "max_weekly_adds": "7",
+                "0": null
+            }
+        },
+        "@time": "27.844905853271ms",
+        "@copyright": "Data provided by Yahoo! and STATS, LLC",
+        "@refresh_rate": "60"
+    }
+}
