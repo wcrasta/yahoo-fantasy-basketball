@@ -173,7 +173,6 @@
           </sourceDirectories>
           <configLocation>modified_google_checks.xml</configLocation>
           <violationSeverity>warning</violationSeverity>
-          <maxAllowedViolations>33</maxAllowedViolations>
         </configuration>
         <executions>
           <execution>

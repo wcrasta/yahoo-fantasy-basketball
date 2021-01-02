@@ -5,14 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import lombok.Data;
 
-/**
- * Used by Jackson for deserialization of Yahoo Fantasy API JSON response.
- */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class YahooMatchupDTO {
 
   @JsonAlias("stat_winners")
   private List<StatWinnerWrapperDTO> statWinners;
+
   private List<TeamWrapperDTO> teams;
 }
