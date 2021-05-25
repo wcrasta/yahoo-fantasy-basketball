@@ -4,7 +4,6 @@ import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
 import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.LeagueDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
 import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
@@ -31,15 +30,15 @@ public class YahooLeagueServiceImpl implements LeagueService {
   public LeagueInfoDTO getLeagueInfo(String leagueId) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    String resourceUriFragment = "/league/{league_key}/teams";
+    var resourceUriFragment = "/league/{league_key}/teams";
 
     FantasyContentDTO fantasyContent =
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
-    LeagueDTO leagueDTO = fantasyContent.getLeague();
+    var leagueDTO = fantasyContent.getLeague();
     List<YahooTeam> teams = extractTeams(leagueDTO);
     List<String> weeks = extractWeeks(leagueDTO);
 
-    LeagueInfoDTO leagueInfoDTO = new LeagueInfoDTO();
+    var leagueInfoDTO = new LeagueInfoDTO();
     leagueInfoDTO.setTeams(teams);
     leagueInfoDTO.setWeeks(weeks);
 
@@ -50,7 +49,7 @@ public class YahooLeagueServiceImpl implements LeagueService {
   public List<StatCategory> getRelevantCategories(String leagueId) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    String resourceUriFragment = "/league/{league_key}/settings";
+    var resourceUriFragment = "/league/{league_key}/settings";
 
     FantasyContentDTO fantasyContent =
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
@@ -59,12 +58,12 @@ public class YahooLeagueServiceImpl implements LeagueService {
 
     List<StatCategory> relevantCategories = new ArrayList<>();
     for (StatWrapperDTO statWrapperDTO : statWrapperDTOs) {
-      StatDTO statDTO = statWrapperDTO.getStat();
+      var statDTO = statWrapperDTO.getStat();
       if (statDTO.getIsOnlyDisplayStat() != null) {
         continue;
       }
 
-      StatCategory statCategory = new StatCategory();
+      var statCategory = new StatCategory();
       statCategory.setId(statDTO.getStatId());
       statCategory.setName(statDTO.getDisplayName());
       statCategory.setBad(statDTO.getSortOrder().equals("0"));
@@ -83,8 +82,8 @@ public class YahooLeagueServiceImpl implements LeagueService {
   private List<String> extractWeeks(LeagueDTO leagueDTO) {
     List<String> weeks = new ArrayList<>();
 
-    int startWeek = Integer.parseInt(leagueDTO.getStartWeek());
-    int currentWeek = Integer.parseInt(leagueDTO.getCurrentWeek());
+    var startWeek = Integer.parseInt(leagueDTO.getStartWeek());
+    var currentWeek = Integer.parseInt(leagueDTO.getCurrentWeek());
 
     for (int i = currentWeek; i >= startWeek; i--) {
       weeks.add("Week " + i);

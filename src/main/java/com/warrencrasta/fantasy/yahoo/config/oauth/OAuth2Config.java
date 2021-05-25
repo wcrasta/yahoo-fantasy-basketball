@@ -26,7 +26,7 @@ public class OAuth2Config {
             .refreshToken()
             .build();
 
-    DefaultOAuth2AuthorizedClientManager authorizedClientManager =
+    var authorizedClientManager =
         new DefaultOAuth2AuthorizedClientManager(
             clientRegistrationRepository, authorizedClientRepository);
     authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
@@ -36,7 +36,7 @@ public class OAuth2Config {
 
   @Bean
   public WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
-    ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
+    var oauth2Client =
         new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
     oauth2Client.setDefaultClientRegistrationId("yahoo");
     return WebClient.builder()

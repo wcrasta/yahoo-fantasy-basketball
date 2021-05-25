@@ -2,7 +2,6 @@ package com.warrencrasta.fantasy.yahoo.service.client;
 
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public class YahooClient {
   }
 
   public FantasyContentDTO getFantasyContent(Map<String, String> uriVariables, String path) {
-    URI fullFantasyUri =
+    var fullFantasyUri =
         UriComponentsBuilder.fromUriString(yahooBaseUri)
             .path(path)
             .queryParam("format", "json_f")

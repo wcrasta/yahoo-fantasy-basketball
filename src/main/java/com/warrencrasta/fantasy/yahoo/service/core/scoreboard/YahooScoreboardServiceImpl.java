@@ -46,7 +46,7 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
       TeamStatCategory myStats, List<TeamStatCategory> allOpponentsStats) {
     List<MatchupDTO> weeklyMatchupsList = new ArrayList<>();
     for (TeamStatCategory opponentStats : allOpponentsStats) {
-      MatchupDTO matchup = new MatchupDTO();
+      var matchup = new MatchupDTO();
       matchup.setOpponent(opponentStats.getName());
 
       List<String> categoriesWon = new ArrayList<>();
@@ -76,9 +76,9 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
       List<String> categoriesLost,
       List<String> categoriesTied) {
 
-    for (int i = 0; i < myStatCategories.size(); i++) {
-      double myValue = Double.parseDouble(myStatCategories.get(i).getValue());
-      double opponentValue = Double.parseDouble(opponent.getStatCategories().get(i).getValue());
+    for (var i = 0; i < myStatCategories.size(); i++) {
+      var myValue = Double.parseDouble(myStatCategories.get(i).getValue());
+      var opponentValue = Double.parseDouble(opponent.getStatCategories().get(i).getValue());
 
       String categoryName = myStatCategories.get(i).getName();
       boolean isBad = myStatCategories.get(i).isBad();

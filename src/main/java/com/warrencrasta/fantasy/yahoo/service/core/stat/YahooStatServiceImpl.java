@@ -4,7 +4,6 @@ import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
 import com.warrencrasta.fantasy.yahoo.domain.stat.TeamStatCategory;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.MatchupWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
@@ -31,7 +30,7 @@ public class YahooStatServiceImpl implements StatService {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
     uriVariables.put("week", week);
-    String resourceUriFragment = "/league/{league_key}/scoreboard;week={week}";
+    var resourceUriFragment = "/league/{league_key}/scoreboard;week={week}";
 
     FantasyContentDTO fantasyContent =
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
@@ -50,7 +49,7 @@ public class YahooStatServiceImpl implements StatService {
       YahooMatchupDTO matchupDTO = matchupWrapperDTO.getMatchup();
       List<TeamWrapperDTO> teamWrapperDTOs = matchupDTO.getTeams();
       for (TeamWrapperDTO teamWrapperDTO : teamWrapperDTOs) {
-        TeamDTO teamDTO = teamWrapperDTO.getTeam();
+        var teamDTO = teamWrapperDTO.getTeam();
         TeamStatCategory singleTeamStats = populateSingleTeamStats(relevantCategories, teamDTO);
         allTeamsStats.add(singleTeamStats);
       }
@@ -61,7 +60,7 @@ public class YahooStatServiceImpl implements StatService {
 
   private TeamStatCategory populateSingleTeamStats(
       List<StatCategory> relevantCategories, TeamDTO teamDTO) {
-    TeamStatCategory statsForTeam = new TeamStatCategory();
+    var statsForTeam = new TeamStatCategory();
     statsForTeam.setId(teamDTO.getTeamKey());
     statsForTeam.setName(teamDTO.getName());
 
@@ -69,14 +68,14 @@ public class YahooStatServiceImpl implements StatService {
     List<StatWrapperDTO> statDTOs = teamDTO.getTeamStats().getStats();
 
     for (StatWrapperDTO statWrapperDTO : statDTOs) {
-      StatDTO statDTO = statWrapperDTO.getStat();
+      var statDTO = statWrapperDTO.getStat();
       if (statDTO.getValue() == null || !isNumeric(statDTO.getValue())) {
         statDTO.setValue("0");
       }
 
       for (StatCategory relevantCategory : relevantCategories) {
         if (relevantCategory.getId().equals(statDTO.getStatId())) {
-          StatCategory statCategory = new StatCategory();
+          var statCategory = new StatCategory();
           statCategory.setId(statDTO.getStatId());
           statCategory.setName(relevantCategory.getName());
           statCategory.setValue(statDTO.getValue());

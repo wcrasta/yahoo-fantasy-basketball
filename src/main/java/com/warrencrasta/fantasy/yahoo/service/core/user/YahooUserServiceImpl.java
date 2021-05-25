@@ -30,7 +30,7 @@ public class YahooUserServiceImpl implements UserService {
 
   @Override
   public List<YahooSeason> getSeasonsForUser() {
-    String resourceUriFragment = "/users;use_login=1/games;game_codes=nba";
+    var resourceUriFragment = "/users;use_login=1/games;game_codes=nba";
 
     FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(resourceUriFragment);
 
@@ -47,7 +47,7 @@ public class YahooUserServiceImpl implements UserService {
   public List<YahooLeague> getLeaguesForUser(String seasonId) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("game_key", seasonId);
-    String resourceUriFragment = "/users;use_login=1/games;game_keys={game_key}/leagues";
+    var resourceUriFragment = "/users;use_login=1/games;game_keys={game_key}/leagues";
 
     FantasyContentDTO fantasyContent =
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);

@@ -9,10 +9,10 @@ $(document).ready(function() {
       var url = "/seasons/" + seasonId + "/leagues";
       $.getJSON(url, {
         ajax : 'true'
-      }, function(data) {
+      }, function(leagues) {
         var leaguesDropdownHtml = '<option value="">Select a League</option>';
-        for (var i = 0; i < data.length; i++) {
-          leaguesDropdownHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+        for (let league of leagues) {
+          leaguesDropdownHtml += '<option value="' + league.id + '">' + league.name + '</option>';
         }
         leaguesDropdownHtml += '</option>';
         $('#league').html(leaguesDropdownHtml);
@@ -28,9 +28,9 @@ $(document).ready(function() {
     		var weeksDropdownHtml = '<option value="">Select a Week</option>';
     		var weeks = data.weeks;
     		teams = data.teams;
-    		for (var i = 0; i < weeks.length; i++) {
-    		    weeksDropdownHtml += '<option value="' + weeks[i].split(" ", 2)[1] + '">' + weeks[i] + '</option>';
-    		}
+    		for (let week of weeks) {
+            weeksDropdownHtml += '<option value="' + week.split(" ", 2)[1] + '">' + week + '</option>';
+        }
     		weeksDropdownHtml += '</option>';
     		$('#week').html(weeksDropdownHtml);
         });
@@ -39,8 +39,8 @@ $(document).ready(function() {
     $('#week').change(function(){
         weekNum = $(this).val();
         var teamDropdownHtml = '<option value="">Select a Team</option>';
-        for (var i = 0; i < teams.length; i++) {
-            teamDropdownHtml += '<option value="' + teams[i].id + '">' + teams[i].name + '</option>';
+        for (let team of teams) {
+            teamDropdownHtml += '<option value="' + team.id + '">' + team.name + '</option>';
         }
         teamDropdownHtml += '</option>';
         $('#team').html(teamDropdownHtml);
@@ -49,6 +49,13 @@ $(document).ready(function() {
     $('#team').change(function(){
         teamId = $(this).val();
         var url = "/leagues/" + leagueId + "/weekly-matchups?teamId=" + teamId + "&week=" + weekNum;
+        function formatResults (data, type, row, meta) {
+          var len = data.length;
+          if (len == 0) {
+              return data;
+          }
+          return len + " (" + data.join(', ') + ")";
+        }
         $('#matchups').dataTable({
                 "bDestroy": true,
                 "createdRow": function( row, data, dataIndex ) {
@@ -69,33 +76,15 @@ $(document).ready(function() {
                     {"data": "opponent"},
                     {
                         "data": "categoriesWon",
-                        "render": function ( data, type, row, meta ) {
-                            var len = data.length;
-                            if (len == 0) {
-                                return data;
-                            }
-                            return len + " (" + data.join(', ') + ")";
-                        }
+                        "render": formatResults
                     },
                     {
                         "data": "categoriesLost",
-                        "render": function ( data, type, row, meta ) {
-                            var len = data.length;
-                            if (len == 0) {
-                                return data;
-                            }
-                            return len + " (" + data.join(', ') + ")";
-                        }
+                        "render": formatResults
                     },
                     {
                         "data": "categoriesTied",
-                        "render": function ( data, type, row, meta ) {
-                            var len = data.length;
-                            if (len == 0) {
-                                return data;
-                            }
-                            return len + " (" + data.join(', ') + ")";
-                        }
+                        "render": formatResults
                     }
                 ]
             });
