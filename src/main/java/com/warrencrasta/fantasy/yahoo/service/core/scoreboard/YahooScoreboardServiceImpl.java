@@ -8,10 +8,14 @@ import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class YahooScoreboardServiceImpl implements ScoreboardService {
+  private static final Logger logger = LoggerFactory.getLogger(YahooScoreboardServiceImpl.class);
 
   private final LeagueService leagueService;
   private final StatService statService;
@@ -32,12 +36,19 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
 
   private TeamStatCategory extractMyStats(String teamId, List<TeamStatCategory> allTeamsStats) {
     TeamStatCategory myStats = null;
+    StringJoiner teamIdJoiner = new StringJoiner(",");
     for (TeamStatCategory team : allTeamsStats) {
+      teamIdJoiner.add(team.getId());
       if (team.getId().equals(teamId)) {
         myStats = team;
         allTeamsStats.remove(team);
         break;
       }
+    }
+    if (myStats == null) {
+      teamId = teamId.replaceAll("[\n\r\t]", "_");
+      String teamIds = teamIdJoiner.toString().replaceAll("[\n\r\t]", "_");
+      logger.error("myStats is null. Team ID: '{}' Teams: [{}]", teamId, teamIds);
     }
     return myStats;
   }

@@ -5,6 +5,8 @@ import com.warrencrasta.fantasy.yahoo.dto.internal.MatchupDTO;
 import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
 import com.warrencrasta.fantasy.yahoo.service.core.scoreboard.ScoreboardService;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/leagues")
+@Validated
 public class LeagueController {
 
   private final LeagueService leagueService;
@@ -24,7 +27,7 @@ public class LeagueController {
   }
 
   @GetMapping("/{leagueId}/info")
-  public LeagueInfoDTO getLeagueInfo(@PathVariable String leagueId) {
+  public LeagueInfoDTO getLeagueInfo(@PathVariable @NotBlank String leagueId) {
     return leagueService.getLeagueInfo(leagueId);
   }
 
