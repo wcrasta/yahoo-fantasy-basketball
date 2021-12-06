@@ -39,7 +39,7 @@ Contributions are welcome from engineers of all skill levels. If you have any qu
 * **Data:** [Yahoo Fantasy Sports API](https://developer.yahoo.com/fantasysports/guide/)
 * **Back End:** Java Spring Boot & Spring Framework for API. Spring Security for OAuth. MapStruct, Lombok
 * **Front End:** Thymeleaf, Bootstrap, HTML, CSS, JavaScript/jQuery, DataTables
-* **Deployment:** Travis CI for CI/CD pipeline. AWS S3 to host artifact. AWS CodeDeploy as deployment agent. Bash script to run the artifact as a process on AWS EC2 instance. AWS IAM to manage permissions among AWS services.
+* **Infrastructure:** Travis CI for CI/CD pipeline. AWS S3 to host artifact. AWS CodeDeploy as deployment agent. Bash script to run the artifact as a process on AWS EC2 instance. AWS IAM to manage permissions among AWS services. AWS CloudFormation for managing infrastructure-as-code.
 * **Monitoring:** Google Analytics
 * **Hosting:** Namecheap to host domain name. AWS EC2 to host the Tomcat web server on the cloud
 * **Code Quality:** Sonar, Checkstyle for code style

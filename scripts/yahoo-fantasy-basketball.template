@@ -1,0 +1,762 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "yahoo-fantasy-basketball CloudFormation Template",
+    "Resources": {
+        "VPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "EnableDnsSupport": "true",
+                "EnableDnsHostnames": "true",
+                "CidrBlock": "10.0.0.0/16"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "96a791f0-938b-4ebe-9f3c-b3fe2a588aee"
+                }
+            }
+        },
+        "PublicSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/24",
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3df467ad-673c-4c48-a41c-3ac1626961e3"
+                }
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "a166c4f5-7cc4-429b-b9d8-2c8c43facc63"
+                }
+            }
+        },
+        "VPCGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "InternetGatewayId": {
+                    "Ref": "InternetGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "1790ebeb-2e41-4293-8cc1-aaba134fd1e0"
+                }
+            }
+        },
+        "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "175bad80-0988-4588-a919-331be705b02d"
+                }
+            }
+        },
+        "PublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "DependsOn": "VPCGatewayAttachment",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "InternetGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "143bbaa1-66a2-42a5-885f-e6300817103c"
+                }
+            }
+        },
+        "PublicSubnetRouteTableAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": {
+                    "Ref": "PublicSubnet"
+                },
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "528e2b71-46e6-4e09-815a-f70630755219"
+                }
+            }
+        },
+        "WebServerSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "GroupDescription": "Allow access from HTTP, HTTPS, and SSH traffic",
+                "SecurityGroupIngress": [{
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "2e76192b-a4f8-48a5-92b6-abbfa8b83263"
+                }
+            }
+        },
+        "WebServerInstance": {
+            "Type": "AWS::EC2::Instance",
+            "Metadata": {
+                "AWS::CloudFormation::Init": {
+                    "configSets": {
+                        "full_install": [
+                            "install_and_enable_cfn_hup"
+                        ]
+                    },
+                    "install_and_enable_cfn_hup": {
+                        "files": {
+                            "/etc/cfn/cfn-hup.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[main]\n",
+                                            "stack=",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            "\n",
+                                            "region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/etc/cfn/hooks.d/cfn-auto-reloader.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[cfn-auto-reloader-hook]\n",
+                                            "triggers=post.update\n",
+                                            "path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init\n",
+                                            "action=/opt/aws/bin/cfn-init -v ",
+                                            "         --stack ",
+                                            {
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "         --resource WebServerInstance ",
+                                            "         --configsets full_install ",
+                                            "         --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
+                                            "runas=root\n"
+                                        ]
+                                    ]
+                                }
+                            },
+                            "/lib/systemd/system/cfn-hup.service": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[Unit]\n",
+                                            "Description=cfn-hup daemon\n\n",
+                                            "[Service]\n",
+                                            "Type=simple\n",
+                                            "ExecStart=/opt/aws/bin/cfn-hup\n",
+                                            "Restart=always\n\n",
+                                            "[Install]\n",
+                                            "WantedBy=multi-user.target"
+                                        ]
+                                    ]
+                                }
+                            }
+                        },
+                        "commands": {
+                            "01enable_cfn_hup": {
+                                "command": "systemctl enable cfn-hup.service"
+                            },
+                            "02start_cfn_hup": {
+                                "command": "systemctl start cfn-hup.service"
+                            }
+                        }
+                    }
+                },
+                "AWS::CloudFormation::Designer": {
+                    "id": "e6f85293-a003-426d-aca7-d27a85147641"
+                }
+            },
+            "Properties": {
+                "InstanceType": "t2.micro",
+                "ImageId": "ami-0a91cd140a1fc148a",
+                "KeyName": "yahoo-fantasy",
+                "NetworkInterfaces": [{
+                    "GroupSet": [{
+                        "Ref": "WebServerSecurityGroup"
+                    }],
+                    "AssociatePublicIpAddress": "true",
+                    "DeviceIndex": "0",
+                    "DeleteOnTermination": "true",
+                    "SubnetId": {
+                        "Ref": "PublicSubnet"
+                    }
+                }],
+                "Tags": [{
+                    "Key": "travis",
+                    "Value": "ci"
+                }],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "apt-get update -y\n",
+                                "mkdir -p /opt/aws/bin\n",
+                                "wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz\n",
+                                "python3 -m easy_install --script-dir /opt/aws/bin aws-cfn-bootstrap-py3-latest.tar.gz\n",
+                                "/opt/aws/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource WebServerInstance ",
+                                "         --configsets full_install ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "/opt/aws/bin/cfn-signal -e $? ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource WebServerInstance ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "sudo sed 's/PasswordAuthentication no/PasswordAuthentication yes/' -i /etc/ssh/sshd_config\n",
+                                "sudo sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' -i /etc/ssh/sshd_config\n",
+                                "echo \"root:password\" | sudo chpasswd\n",
+                                "sudo service sshd restart\n"
+                            ]
+                        ]
+                    }
+                }
+            },
+            "CreationPolicy": {
+                "ResourceSignal": {
+                    "Timeout": "PT5M"
+                }
+            }
+        },
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "yahoo-fantasy-wc"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "f100173c-3a94-46c5-823e-96825b67d3e4"
+                }
+            }
+        },
+        "TravisUser": {
+            "Type": "AWS::IAM::User",
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "9b8d3f6d-bd2c-4187-84a4-286facfba491"
+                }
+            },
+            "Properties": {
+                "Path": "/"
+            }
+        },
+        "TravisDeployToS3Policy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "Travis-Deploy-To-S3",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Action": [
+                            "s3:PutObject"
+                        ],
+                        "Resource": [
+                            "*"
+                        ]
+                    }]
+                },
+                "Users": [{
+                    "Ref": "TravisUser"
+                }]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "30e20ac9-da71-4c77-ba74-713ddade77eb"
+                }
+            }
+        },
+        "TravisCodeDeployPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "Travis-Code-Deploy-Policy",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                            "Effect": "Allow",
+                            "Action": [
+                                "codedeploy:RegisterApplicationRevision",
+                                "codedeploy:GetApplicationRevision"
+                            ],
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:application:yahoo-fantasy-basketball"
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "codedeploy:CreateDeployment",
+                                "codedeploy:GetDeployment"
+                            ],
+                            "Resource": [
+                                "*"
+                            ]
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "codedeploy:GetDeploymentConfig"
+                            ],
+                            "Resource": {
+                                "Fn::Sub": "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.OneAtATime"
+                            }
+                        }
+                    ]
+                },
+                "Users": [{
+                    "Ref": "TravisUser"
+                }]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "ae72c058-0514-4ece-93f3-1ae11c720653"
+                }
+            }
+        },
+        "CodeDeployApplication": {
+            "Type": "AWS::CodeDeploy::Application",
+            "Properties": {
+                "ApplicationName": "yahoo-fantasy-basketball",
+                "ComputePlatform": "Server"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "754824dc-5670-41ad-b0d8-f4c739230661"
+                }
+            }
+        },
+        "CodeDeployServiceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Sid": "",
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": "codedeploy.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                    }]
+                },
+                "Description": "Allows CodeDeploy to call AWS services such as Auto Scaling on your behalf.",
+                "Path": "/",
+                "MaxSessionDuration": 3600,
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "82c74261-a381-432a-917c-1ffe94a7d00d"
+                }
+            }
+        },
+        "CodeDeployEc2Role": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": "ec2.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                    }]
+                },
+                "Description": "Allows EC2 instances to call AWS services on your behalf.",
+                "Path": "/",
+                "MaxSessionDuration": 3600,
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforAWSCodeDeploy"
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "21d5b801-f8eb-4ad0-8366-61453224783a"
+                }
+            }
+        },
+        "DeploymentGroup": {
+            "Type": "AWS::CodeDeploy::DeploymentGroup",
+            "Properties": {
+                "ApplicationName": {
+                    "Ref": "CodeDeployApplication"
+                },
+                "DeploymentGroupName": "travisci",
+                "DeploymentStyle": {
+                    "DeploymentType": "IN_PLACE",
+                    "DeploymentOption": "WITHOUT_TRAFFIC_CONTROL"
+                },
+                "DeploymentConfigName": "CodeDeployDefault.OneAtATime",
+                "Ec2TagFilters": [{
+                    "Key": "travis",
+                    "Value": "ci",
+                    "Type": "KEY_AND_VALUE"
+                }],
+                "ServiceRoleArn": {
+                    "Fn::GetAtt": [
+                        "CodeDeployServiceRole",
+                        "Arn"
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "f1c0a12d-6e0b-4482-b811-ae65438428c1"
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "URL": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "WebServerInstance",
+                                "PublicIp"
+                            ]
+                        }
+                    ]
+                ]
+            },
+            "Description": "Newly created application URL"
+        }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "a166c4f5-7cc4-429b-b9d8-2c8c43facc63": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 30,
+                    "y": 210
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "96a791f0-938b-4ebe-9f3c-b3fe2a588aee": {
+                "size": {
+                    "width": 630,
+                    "height": 690
+                },
+                "position": {
+                    "x": 60,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": [
+                    "2e76192b-a4f8-48a5-92b6-abbfa8b83263",
+                    "175bad80-0988-4588-a919-331be705b02d"
+                ]
+            },
+            "2e76192b-a4f8-48a5-92b6-abbfa8b83263": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 270,
+                    "y": 360
+                },
+                "z": 2,
+                "parent": "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                "embeds": [],
+                "iscontainedinside": [
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee"
+                ]
+            },
+            "175bad80-0988-4588-a919-331be705b02d": {
+                "size": {
+                    "width": 240,
+                    "height": 360
+                },
+                "position": {
+                    "x": 90,
+                    "y": 240
+                },
+                "z": 2,
+                "parent": "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                "embeds": [
+                    "143bbaa1-66a2-42a5-885f-e6300817103c",
+                    "e6f85293-a003-426d-aca7-d27a85147641"
+                ]
+            },
+            "1790ebeb-2e41-4293-8cc1-aaba134fd1e0": {
+                "source": {
+                    "id": "96a791f0-938b-4ebe-9f3c-b3fe2a588aee"
+                },
+                "target": {
+                    "id": "a166c4f5-7cc4-429b-b9d8-2c8c43facc63"
+                },
+                "z": 1
+            },
+            "143bbaa1-66a2-42a5-885f-e6300817103c": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 120,
+                    "y": 390
+                },
+                "z": 3,
+                "parent": "175bad80-0988-4588-a919-331be705b02d",
+                "embeds": [],
+                "isassociatedwith": [
+                    "a166c4f5-7cc4-429b-b9d8-2c8c43facc63"
+                ],
+                "iscontainedinside": [
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d"
+                ],
+                "dependson": [
+                    "1790ebeb-2e41-4293-8cc1-aaba134fd1e0"
+                ]
+            },
+            "3df467ad-673c-4c48-a41c-3ac1626961e3": {
+                "size": {
+                    "width": 210,
+                    "height": 210
+                },
+                "position": {
+                    "x": 240,
+                    "y": 240
+                },
+                "z": 1,
+                "embeds": [],
+                "iscontainedinside": [
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee"
+                ]
+            },
+            "528e2b71-46e6-4e09-815a-f70630755219": {
+                "source": {
+                    "id": "175bad80-0988-4588-a919-331be705b02d"
+                },
+                "target": {
+                    "id": "3df467ad-673c-4c48-a41c-3ac1626961e3"
+                },
+                "z": 2
+            },
+            "9b8d3f6d-bd2c-4187-84a4-286facfba491": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "e6f85293-a003-426d-aca7-d27a85147641": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 90,
+                    "y": 360
+                },
+                "z": 3,
+                "parent": "175bad80-0988-4588-a919-331be705b02d",
+                "embeds": [],
+                "iscontainedinside": [
+                    "3df467ad-673c-4c48-a41c-3ac1626961e3",
+                    "3df467ad-673c-4c48-a41c-3ac1626961e3"
+                ]
+            },
+            "f1c0a12d-6e0b-4482-b811-ae65438428c1": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "754824dc-5670-41ad-b0d8-f4c739230661"
+                ]
+            },
+            "82c74261-a381-432a-917c-1ffe94a7d00d": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 300
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "754824dc-5670-41ad-b0d8-f4c739230661": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 420
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "30e20ac9-da71-4c77-ba74-713ddade77eb": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 540
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "9b8d3f6d-bd2c-4187-84a4-286facfba491"
+                ]
+            },
+            "f100173c-3a94-46c5-823e-96825b67d3e4": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 630
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "ae72c058-0514-4ece-93f3-1ae11c720653": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 720
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "9b8d3f6d-bd2c-4187-84a4-286facfba491"
+                ]
+            },
+            "21d5b801-f8eb-4ad0-8366-61453224783a": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 720,
+                    "y": 810
+                },
+                "z": 1,
+                "embeds": []
+            }
+        }
+    }
+}
