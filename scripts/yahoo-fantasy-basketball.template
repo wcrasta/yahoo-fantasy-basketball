@@ -107,10 +107,17 @@
                     "Ref": "VPC"
                 },
                 "GroupDescription": "Allow access from HTTP, HTTPS, and SSH traffic",
-                "SecurityGroupIngress": [{
+                "SecurityGroupIngress": [
+                    {
                         "IpProtocol": "tcp",
                         "FromPort": "80",
                         "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
                         "CidrIp": "0.0.0.0/0"
                     },
                     {
@@ -221,6 +228,7 @@
             "Properties": {
                 "InstanceType": "t2.micro",
                 "ImageId": "ami-0a91cd140a1fc148a",
+                "IamInstanceProfile": { "Ref" : "CodeDeployEc2InstanceProfile" },
                 "KeyName": "yahoo-fantasy",
                 "NetworkInterfaces": [{
                     "GroupSet": [{
@@ -233,10 +241,12 @@
                         "Ref": "PublicSubnet"
                     }
                 }],
-                "Tags": [{
-                    "Key": "travis",
-                    "Value": "ci"
-                }],
+                "Tags": [
+                    {
+                        "Key": "travis",
+                        "Value": "ci"
+                    }
+                ],
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [
@@ -273,7 +283,14 @@
                                 "sudo sed 's/PasswordAuthentication no/PasswordAuthentication yes/' -i /etc/ssh/sshd_config\n",
                                 "sudo sed 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' -i /etc/ssh/sshd_config\n",
                                 "echo \"root:password\" | sudo chpasswd\n",
-                                "sudo service sshd restart\n"
+                                "sudo service sshd restart\n",
+                                "yes | sudo apt install default-jre\n",
+                                "yes | sudo apt install ruby-full\n",
+                                "yes | sudo apt install wget\n",
+                                "cd /home/ubuntu\n",
+                                "wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install\n",
+                                "chmod +x ./install\n",
+                                "sudo ./install auto > /tmp/logfile\n"
                             ]
                         ]
                     }
@@ -313,19 +330,23 @@
                 "PolicyName": "Travis-Deploy-To-S3",
                 "PolicyDocument": {
                     "Version": "2012-10-17",
-                    "Statement": [{
-                        "Effect": "Allow",
-                        "Action": [
-                            "s3:PutObject"
-                        ],
-                        "Resource": [
-                            "*"
-                        ]
-                    }]
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:PutObject"
+                            ],
+                            "Resource": [
+                                "*"
+                            ]
+                        }
+                    ]
                 },
-                "Users": [{
-                    "Ref": "TravisUser"
-                }]
+                "Users": [
+                    {
+                        "Ref": "TravisUser"
+                    }
+                ]
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -339,7 +360,8 @@
                 "PolicyName": "Travis-Code-Deploy-Policy",
                 "PolicyDocument": {
                     "Version": "2012-10-17",
-                    "Statement": [{
+                    "Statement": [
+                        {
                             "Effect": "Allow",
                             "Action": [
                                 "codedeploy:RegisterApplicationRevision",
@@ -370,9 +392,11 @@
                         }
                     ]
                 },
-                "Users": [{
-                    "Ref": "TravisUser"
-                }]
+                "Users": [
+                    {
+                        "Ref": "TravisUser"
+                    }
+                ]
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -397,14 +421,16 @@
             "Properties": {
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
-                    "Statement": [{
-                        "Sid": "",
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Service": "codedeploy.amazonaws.com"
-                        },
-                        "Action": "sts:AssumeRole"
-                    }]
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "codedeploy.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
                 },
                 "Description": "Allows CodeDeploy to call AWS services such as Auto Scaling on your behalf.",
                 "Path": "/",
@@ -419,18 +445,20 @@
                 }
             }
         },
-        "CodeDeployEc2Role": {
+        "CodeDeployEc2DeployInstance": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
                     "Version": "2012-10-17",
-                    "Statement": [{
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Service": "ec2.amazonaws.com"
-                        },
-                        "Action": "sts:AssumeRole"
-                    }]
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "ec2.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
                 },
                 "Description": "Allows EC2 instances to call AWS services on your behalf.",
                 "Path": "/",
@@ -442,6 +470,22 @@
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "21d5b801-f8eb-4ad0-8366-61453224783a"
+                }
+            }
+        },
+        "CodeDeployEc2InstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [
+                    {
+                        "Ref": "CodeDeployEc2DeployInstance"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "6bf6eba1-6a00-4d75-99e3-5a4dcd9a114e"
                 }
             }
         },
@@ -457,11 +501,13 @@
                     "DeploymentOption": "WITHOUT_TRAFFIC_CONTROL"
                 },
                 "DeploymentConfigName": "CodeDeployDefault.OneAtATime",
-                "Ec2TagFilters": [{
-                    "Key": "travis",
-                    "Value": "ci",
-                    "Type": "KEY_AND_VALUE"
-                }],
+                "Ec2TagFilters": [
+                    {
+                        "Key": "travis",
+                        "Value": "ci",
+                        "Type": "KEY_AND_VALUE"
+                    }
+                ],
                 "ServiceRoleArn": {
                     "Fn::GetAtt": [
                         "CodeDeployServiceRole",
@@ -549,6 +595,10 @@
                     "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
                     "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
                     "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
+                    "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
                     "96a791f0-938b-4ebe-9f3c-b3fe2a588aee"
                 ]
             },
@@ -564,8 +614,8 @@
                 "z": 2,
                 "parent": "96a791f0-938b-4ebe-9f3c-b3fe2a588aee",
                 "embeds": [
-                    "143bbaa1-66a2-42a5-885f-e6300817103c",
-                    "e6f85293-a003-426d-aca7-d27a85147641"
+                    "e6f85293-a003-426d-aca7-d27a85147641",
+                    "143bbaa1-66a2-42a5-885f-e6300817103c"
                 ]
             },
             "1790ebeb-2e41-4293-8cc1-aaba134fd1e0": {
@@ -584,7 +634,7 @@
                 },
                 "position": {
                     "x": 120,
-                    "y": 390
+                    "y": 270
                 },
                 "z": 3,
                 "parent": "175bad80-0988-4588-a919-331be705b02d",
@@ -593,6 +643,10 @@
                     "a166c4f5-7cc4-429b-b9d8-2c8c43facc63"
                 ],
                 "iscontainedinside": [
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
+                    "175bad80-0988-4588-a919-331be705b02d",
                     "175bad80-0988-4588-a919-331be705b02d",
                     "175bad80-0988-4588-a919-331be705b02d",
                     "175bad80-0988-4588-a919-331be705b02d",
@@ -641,8 +695,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 90
+                    "x": -280,
+                    "y": 180
                 },
                 "z": 1,
                 "embeds": []
@@ -653,8 +707,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 90,
-                    "y": 360
+                    "x": 140,
+                    "y": 520
                 },
                 "z": 3,
                 "parent": "175bad80-0988-4588-a919-331be705b02d",
@@ -670,8 +724,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 180
+                    "x": -120,
+                    "y": 630
                 },
                 "z": 1,
                 "embeds": [],
@@ -685,8 +739,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 300
+                    "x": -120,
+                    "y": 770
                 },
                 "z": 1,
                 "embeds": []
@@ -697,8 +751,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 420
+                    "x": -320,
+                    "y": 630
                 },
                 "z": 1,
                 "embeds": []
@@ -709,8 +763,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 540
+                    "x": -170,
+                    "y": 180
                 },
                 "z": 1,
                 "embeds": [],
@@ -724,8 +778,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 630
+                    "x": 170,
+                    "y": 80
                 },
                 "z": 1,
                 "embeds": []
@@ -736,8 +790,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 720
+                    "x": -170,
+                    "y": 270
                 },
                 "z": 1,
                 "embeds": [],
@@ -751,11 +805,26 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 720,
-                    "y": 810
+                    "x": -190,
+                    "y": 410
                 },
                 "z": 1,
                 "embeds": []
+            },
+            "6bf6eba1-6a00-4d75-99e3-5a4dcd9a114e": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -190,
+                    "y": 520
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "21d5b801-f8eb-4ad0-8366-61453224783a"
+                ]
             }
         }
     }
