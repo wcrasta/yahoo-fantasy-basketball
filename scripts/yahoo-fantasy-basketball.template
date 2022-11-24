@@ -305,7 +305,7 @@
         "S3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": "yahoo-fantasy-wc"
+                "BucketName": "yahoo-fantasy-wc-2"
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
