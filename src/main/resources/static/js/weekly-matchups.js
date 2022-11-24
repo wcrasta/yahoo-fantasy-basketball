@@ -1,16 +1,16 @@
 $(document).ready(function() {
-    var seasonId;
-    var leagueId;
-    var teams;
-    var weekNum;
-    var teamId;
+    let seasonId;
+    let leagueId;
+    let teams;
+    let weekNum;
+    let teamId;
     $('#season').change(function(){
       seasonId = $(this).val();
-      var url = "/seasons/" + seasonId + "/leagues";
+      let url = "/seasons/" + seasonId + "/leagues";
       $.getJSON(url, {
         ajax : 'true'
       }, function(leagues) {
-        var leaguesDropdownHtml = '<option value="">Select a League</option>';
+        let leaguesDropdownHtml = '<option value="">Select a League</option>';
         for (let league of leagues) {
           leaguesDropdownHtml += '<option value="' + league.id + '">' + league.name + '</option>';
         }
@@ -21,12 +21,12 @@ $(document).ready(function() {
 
     $('#league').change(function(){
       leagueId = $(this).val();
-    	var url = "/leagues/" + leagueId + "/info";
+    	let url = "/leagues/" + leagueId + "/info";
     	$.getJSON(url, {
     		ajax : 'true'
     	}, function(data) {
-    		var weeksDropdownHtml = '<option value="">Select a Week</option>';
-    		var weeks = data.weeks;
+    		let weeksDropdownHtml = '<option value="">Select a Week</option>';
+    		let weeks = data.weeks;
     		teams = data.teams;
     		for (let week of weeks) {
             weeksDropdownHtml += '<option value="' + week.split(" ", 2)[1] + '">' + week + '</option>';
@@ -38,7 +38,7 @@ $(document).ready(function() {
 
     $('#week').change(function(){
         weekNum = $(this).val();
-        var teamDropdownHtml = '<option value="">Select a Team</option>';
+        let teamDropdownHtml = '<option value="">Select a Team</option>';
         for (let team of teams) {
             teamDropdownHtml += '<option value="' + team.id + '">' + team.name + '</option>';
         }
@@ -48,9 +48,9 @@ $(document).ready(function() {
 
     $('#team').change(function(){
         teamId = $(this).val();
-        var url = "/leagues/" + leagueId + "/weekly-matchups?teamId=" + teamId + "&week=" + weekNum;
+        let url = "/leagues/" + leagueId + "/weekly-matchups?teamId=" + teamId + "&week=" + weekNum;
         function formatResults (data, type, row, meta) {
-          var len = data.length;
+          let len = data.length;
           if (len == 0) {
               return data;
           }
