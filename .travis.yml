@@ -30,12 +30,12 @@ deploy:
     skip_cleanup: true
     on: &2
       repo: wcrasta/yahoo-fantasy-basketball
-    bucket: yahoo-fantasy-wc-2
+    bucket: yahoo-fantasy-wc-3
     region: us-east-2
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: yahoo-fantasy-wc-2
+    bucket: yahoo-fantasy-wc-3
     key: yahoo-fantasy-basketball.zip
     bundle_type: zip
     application: yahoo-fantasy-basketball

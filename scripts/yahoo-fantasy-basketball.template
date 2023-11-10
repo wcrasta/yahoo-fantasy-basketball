@@ -202,7 +202,7 @@
                                             "Description=cfn-hup daemon\n\n",
                                             "[Service]\n",
                                             "Type=simple\n",
-                                            "ExecStart=/opt/aws/bin/cfn-hup\n",
+                                            "ExecStart=/usr/local/bin/cfn-hup\n",
                                             "Restart=always\n\n",
                                             "[Install]\n",
                                             "WantedBy=multi-user.target"
@@ -227,7 +227,7 @@
             },
             "Properties": {
                 "InstanceType": "t2.micro",
-                "ImageId": "ami-0a91cd140a1fc148a",
+                "ImageId": "ami-097a2df4ac947655f",
                 "IamInstanceProfile": { "Ref" : "CodeDeployEc2InstanceProfile" },
                 "KeyName": "yahoo-fantasy",
                 "NetworkInterfaces": [{
@@ -253,11 +253,12 @@
                             "",
                             [
                                 "#!/bin/bash -xe\n",
-                                "apt-get update -y\n",
-                                "mkdir -p /opt/aws/bin\n",
-                                "wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz\n",
-                                "python3 -m easy_install --script-dir /opt/aws/bin aws-cfn-bootstrap-py3-latest.tar.gz\n",
-                                "/opt/aws/bin/cfn-init -v ",
+                                "sudo apt-get update -y\n",
+                                "sudo apt-get -y install python3-pip\n",
+                                "mkdir -p /opt/aws/\n",
+                                "sudo pip3 install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz\n",
+                                "sudo ln -s /usr/local/init/ubuntu/cfn-hup /etc/init.d/cfn-hup\n",
+                                "/usr/local/bin/cfn-init -v ",
                                 "         --stack ",
                                 {
                                     "Ref": "AWS::StackName"
@@ -269,7 +270,7 @@
                                     "Ref": "AWS::Region"
                                 },
                                 "\n",
-                                "/opt/aws/bin/cfn-signal -e $? ",
+                                "/usr/local/bin/cfn-signal -e $? ",
                                 "         --stack ",
                                 {
                                     "Ref": "AWS::StackName"
@@ -305,7 +306,7 @@
         "S3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": "yahoo-fantasy-wc-2"
+                "BucketName": "yahoo-fantasy-wc-3"
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
