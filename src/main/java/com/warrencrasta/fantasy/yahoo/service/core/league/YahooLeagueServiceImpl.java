@@ -10,6 +10,7 @@ import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
 import com.warrencrasta.fantasy.yahoo.mapper.TeamMapper;
 import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ public class YahooLeagueServiceImpl implements LeagueService {
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
     var leagueDTO = fantasyContent.getLeague();
     List<YahooTeam> teams = extractTeams(leagueDTO);
+    teams.sort(Comparator.comparing(YahooTeam::getName));
     List<String> weeks = extractWeeks(leagueDTO);
 
     var leagueInfoDTO = new LeagueInfoDTO();

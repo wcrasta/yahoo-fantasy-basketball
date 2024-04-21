@@ -7,7 +7,6 @@ import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
 import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.StringJoiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,12 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
     List<StatCategory> relevantCategories = leagueService.getRelevantCategories(leagueId);
     List<TeamStatCategory> allTeamsStats =
         statService.getAllTeamsStats(leagueId, week, relevantCategories);
-    TeamStatCategory myStats = Objects.requireNonNull(extractMyStats(teamId, allTeamsStats));
+    TeamStatCategory myStats = extractMyStats(teamId, allTeamsStats);
+    if (myStats == null) {
+      teamId = teamId.replaceAll("[\n\r\t]", "_");
+      logger.warn("myStats is null. Team ID: '{}'", teamId);
+      return List.of();
+    }
     return compareAgainstOpponents(myStats, allTeamsStats);
   }
 
@@ -44,11 +48,6 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
         allTeamsStats.remove(team);
         break;
       }
-    }
-    if (myStats == null) {
-      teamId = teamId.replaceAll("[\n\r\t]", "_");
-      String teamIds = teamIdJoiner.toString().replaceAll("[\n\r\t]", "_");
-      logger.error("myStats is null. Team ID: '{}' Teams: [{}]", teamId, teamIds);
     }
     return myStats;
   }

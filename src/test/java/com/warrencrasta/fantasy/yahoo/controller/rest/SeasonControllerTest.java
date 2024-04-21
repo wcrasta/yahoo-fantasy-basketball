@@ -42,6 +42,5 @@ class SeasonControllerTest {
         .andExpect(status().isOk())
         .andExpect(
             content().json("[{\"id\":\"395.l.37133\",\"name\":\"Father Stretch the Floor\"}]"));
-    ;
   }
 }

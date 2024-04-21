@@ -17,10 +17,10 @@
 
   <properties>
     <!-- Spring version: 5.3.1	-->
-    <java.version>11</java.version>
+    <java.version>21</java.version>
     <okhttp3-version>4.9.0</okhttp3-version>
     <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
-    <org.projectlombok.version>1.18.16</org.projectlombok.version>
+    <org.projectlombok.version>1.18.30</org.projectlombok.version>
     <sonar.projectKey>wcrasta_yahoo-fantasy-basketball</sonar.projectKey>
     <sonar.organization>wcrasta</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>

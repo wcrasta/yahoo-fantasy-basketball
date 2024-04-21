@@ -9,6 +9,7 @@ import com.warrencrasta.fantasy.yahoo.mapper.LeagueMapper;
 import com.warrencrasta.fantasy.yahoo.mapper.SeasonMapper;
 import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,10 @@ public class YahooUserServiceImpl implements UserService {
     List<LeagueWrapperDTO> leagueWrapperDTOs =
         fantasyContent.getUsers().get(0).getUser().getGames().get(0).getGame().getLeagues();
 
-    return leagueMapper.leagueWrapperDTOsToYahooLeagues(leagueWrapperDTOs);
+    List<YahooLeague> yahooLeagues =
+        leagueMapper.leagueWrapperDTOsToYahooLeagues(leagueWrapperDTOs);
+    yahooLeagues.sort(Comparator.comparing(YahooLeague::getName));
+
+    return yahooLeagues;
   }
 }

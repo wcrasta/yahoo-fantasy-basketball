@@ -69,13 +69,14 @@ class YahooUserServiceImplTest {
         objectMapper.readValue(new File(mockFantasyResponseLeaguesPath), FantasyResponseDTO.class);
     List<YahooLeague> yahooLeagues = new ArrayList<>();
     yahooLeagues.add(new YahooLeague("395.l.37133", "Father Stretch the Floor"));
+    yahooLeagues.add(new YahooLeague("395.l.37134", "Another Test League"));
 
     when(yahooClient.getFantasyContent(uriVariables, resourceUriFragment))
         .thenReturn(response.getFantasyContent());
     when(leagueMapper.leagueWrapperDTOsToYahooLeagues(anyList())).thenReturn(yahooLeagues);
 
     List<YahooLeague> leagues = yahooUserService.getLeaguesForUser(seasonId);
-    assertEquals("395.l.37133", leagues.get(0).getId());
-    assertEquals("Father Stretch the Floor", leagues.get(0).getName());
+    assertEquals("Another Test League", leagues.get(0).getName());
+    assertEquals("Father Stretch the Floor", leagues.get(1).getName());
   }
 }

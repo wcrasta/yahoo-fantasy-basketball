@@ -49,6 +49,12 @@
                       "game_code": "nba",
                       "season": "2019"
                     }
+                  },
+                  {
+                    "league": {
+                      "league_key": "395.l.37134",
+                      "name": "Another Test League"
+                    }
                   }
                 ],
                 "leagues:attributes": {

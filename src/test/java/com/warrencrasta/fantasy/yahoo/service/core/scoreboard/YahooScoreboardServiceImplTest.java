@@ -1,6 +1,7 @@
 package com.warrencrasta.fantasy.yahoo.service.core.scoreboard;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,9 +37,35 @@ class YahooScoreboardServiceImplTest {
     String leagueId = "395.l.37133";
     String week = "1";
     String teamId = "395.l.37133.t.14";
+
+    setupMocks(leagueId, week);
+    String mockWeeklyMatchupsPath = "src/test/resources/yahoo/weekly_matchups_mock.json";
+    List<MatchupDTO> mockedWeeklyMatchups =
+        objectMapper.readValue(new File(mockWeeklyMatchupsPath), new TypeReference<>() {});
+
+    List<MatchupDTO> weeklyMatchups =
+        yahooScoreboardService.getWeeklyMatchups(leagueId, week, teamId);
+
+    assertEquals(mockedWeeklyMatchups, weeklyMatchups);
+  }
+
+  @Test
+  void testGetWeeklyMatchups_nullMyStats() throws IOException {
+    String leagueId = "395.l.37133";
+    String week = "1";
+    String teamId = "395.l.37133.t.15";
+
+    setupMocks(leagueId, week);
+
+    List<MatchupDTO> weeklyMatchups =
+        yahooScoreboardService.getWeeklyMatchups(leagueId, week, teamId);
+
+    assertTrue(weeklyMatchups.isEmpty());
+  }
+
+  private void setupMocks(String leagueId, String week) throws IOException {
     String mockRelevantCategoriesPath = "src/test/resources/yahoo/relevant_categories_mock.json";
     String mockAllTeamsStatsPath = "src/test/resources/yahoo/all_teams_stats_mock.json";
-    String mockWeeklyMatchupsPath = "src/test/resources/yahoo/weekly_matchups_mock.json";
 
     List<StatCategory> mockRelevantCategories =
         objectMapper.readValue(new File(mockRelevantCategoriesPath), new TypeReference<>() {});
@@ -48,11 +75,5 @@ class YahooScoreboardServiceImplTest {
     when(leagueService.getRelevantCategories(leagueId)).thenReturn(mockRelevantCategories);
     when(statService.getAllTeamsStats(leagueId, week, mockRelevantCategories))
         .thenReturn(mockedAllTeamsStats);
-
-    List<MatchupDTO> mockedWeeklyMatchups =
-        objectMapper.readValue(new File(mockWeeklyMatchupsPath), new TypeReference<>() {});
-    List<MatchupDTO> weeklyMatchups =
-        yahooScoreboardService.getWeeklyMatchups(leagueId, week, teamId);
-    assertEquals(mockedWeeklyMatchups, weeklyMatchups);
   }
 }
