@@ -228,19 +228,25 @@
             "Properties": {
                 "InstanceType": "t2.micro",
                 "ImageId": "ami-097a2df4ac947655f",
-                "IamInstanceProfile": { "Ref" : "CodeDeployEc2InstanceProfile" },
+                "IamInstanceProfile": {
+                    "Ref": "CodeDeployEc2InstanceProfile"
+                },
                 "KeyName": "yahoo-fantasy",
-                "NetworkInterfaces": [{
-                    "GroupSet": [{
-                        "Ref": "WebServerSecurityGroup"
-                    }],
-                    "AssociatePublicIpAddress": "true",
-                    "DeviceIndex": "0",
-                    "DeleteOnTermination": "true",
-                    "SubnetId": {
-                        "Ref": "PublicSubnet"
+                "NetworkInterfaces": [
+                    {
+                        "GroupSet": [
+                            {
+                                "Ref": "WebServerSecurityGroup"
+                            }
+                        ],
+                        "AssociatePublicIpAddress": "true",
+                        "DeviceIndex": "0",
+                        "DeleteOnTermination": "true",
+                        "SubnetId": {
+                            "Ref": "PublicSubnet"
+                        }
                     }
-                }],
+                ],
                 "Tags": [
                     {
                         "Key": "travis",
@@ -306,7 +312,7 @@
         "S3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": "yahoo-fantasy-wc-3"
+                "BucketName": "yahoo-fantasy-wc-4"
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
@@ -389,6 +395,38 @@
                             ],
                             "Resource": {
                                 "Fn::Sub": "arn:aws:codedeploy:${AWS::Region}:${AWS::AccountId}:deploymentconfig:CodeDeployDefault.OneAtATime"
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:ListBucket"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "S3Bucket",
+                                    "Arn"
+                                ]
+                            }
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "s3:GetObject"
+                            ],
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "S3Bucket",
+                                                "Arn"
+                                            ]
+                                        },
+                                        "/*"
+                                    ]
+                                ]
                             }
                         }
                     ]
