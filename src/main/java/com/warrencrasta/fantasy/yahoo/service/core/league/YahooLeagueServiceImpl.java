@@ -9,11 +9,13 @@ import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
 import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
 import com.warrencrasta.fantasy.yahoo.mapper.TeamMapper;
 import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
+import com.warrencrasta.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,10 +23,13 @@ public class YahooLeagueServiceImpl implements LeagueService {
 
   private final YahooClient yahooClient;
   private final TeamMapper teamMapper;
+  private final StrengthOfScheduleService strengthOfScheduleService;
 
-  public YahooLeagueServiceImpl(YahooClient yahooClient, TeamMapper teamMapper) {
+  public YahooLeagueServiceImpl(YahooClient yahooClient, TeamMapper teamMapper, 
+      @Lazy StrengthOfScheduleService strengthOfScheduleService) {
     this.yahooClient = yahooClient;
     this.teamMapper = teamMapper;
+    this.strengthOfScheduleService = strengthOfScheduleService;
   }
 
   @Override
@@ -43,6 +48,36 @@ public class YahooLeagueServiceImpl implements LeagueService {
     var leagueInfoDTO = new LeagueInfoDTO();
     leagueInfoDTO.setTeams(teams);
     leagueInfoDTO.setWeeks(weeks);
+
+    return leagueInfoDTO;
+  }
+
+  @Override
+  public LeagueInfoDTO getLeagueInfoWithSos(String leagueId) {
+    LeagueInfoDTO leagueInfoDTO = this.getLeagueInfo(leagueId);
+    
+    Map<String, String> uriVariables = new HashMap<>();
+    uriVariables.put("league_key", leagueId);
+    FantasyContentDTO fantasyContent = 
+        yahooClient.getFantasyContent(uriVariables, "/league/{league_key}/teams");
+    var leagueDTO = fantasyContent.getLeague();
+
+    try {
+      Map<String, Double> sosMap =
+          strengthOfScheduleService.calculateStrengthOfScheduleForLeague(leagueId, leagueDTO);
+
+      for (YahooTeam team : leagueInfoDTO.getTeams()) {
+        // NOT: teamKey sorunu için getId() kullandık
+        Double sosScore = sosMap.get(team.getId());
+        if (sosScore != null) {
+          team.setStrengthOfSchedule(sosScore);
+        } else {
+          team.setStrengthOfSchedule(0.0);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     return leagueInfoDTO;
   }
@@ -92,5 +127,42 @@ public class YahooLeagueServiceImpl implements LeagueService {
     }
 
     return weeks;
+  }
+
+  @Override
+  public Map<String, Double> getLeagueWinRates(String leagueId) {
+    Map<String, String> uriVariables = new HashMap<>();
+    uriVariables.put("league_key", leagueId);
+    var resourceUriFragment = "/league/{league_key}/standings";
+
+    FantasyContentDTO fantasyContent =
+        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+
+    Map<String, Double> teamWinRates = new HashMap<>();
+
+    List<TeamWrapperDTO> teamWrappers =
+        fantasyContent.getLeague().getStandings().getTeams();
+
+    for (TeamWrapperDTO teamWrapper : teamWrappers) {
+      var teamDTO = teamWrapper.getTeam();
+      String teamKey = teamDTO.getTeamKey();
+      
+      var outcomes = teamDTO.getTeamStandings().getOutcomeTotals();
+      
+      double wins = Double.parseDouble(outcomes.getWins());
+      double losses = Double.parseDouble(outcomes.getLosses());
+      double ties = Double.parseDouble(outcomes.getTies());
+      
+      double totalGames = wins + losses + ties;
+      
+      double winRate = 0.0;
+      if (totalGames > 0) {
+        winRate = (wins + (ties * 0.5)) / totalGames;
+      }
+
+      teamWinRates.put(teamKey, winRate);
+    }
+
+    return teamWinRates;
   }
 }

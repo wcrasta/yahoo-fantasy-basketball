@@ -13,4 +13,6 @@ public class YahooMatchupDTO {
   private List<StatWinnerWrapperDTO> statWinners;
 
   private List<TeamWrapperDTO> teams;
+
+  private String week;
 }

@@ -1,6 +1,8 @@
 package com.warrencrasta.fantasy.yahoo.controller.view;
 
+import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
 import com.warrencrasta.fantasy.yahoo.service.core.user.UserService;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +20,11 @@ public class MatchupController {
   public String weeklyMatchups(Model model) {
     model.addAttribute("seasons", userService.getSeasonsForUser());
     return "weekly-matchups";
+  }
+
+  @GetMapping("/strength-of-schedule")
+  public String strengthOfSchedule(Model model) {
+    model.addAttribute("seasons", userService.getSeasonsForUser());
+    return "strength-of-schedule";
   }
 }

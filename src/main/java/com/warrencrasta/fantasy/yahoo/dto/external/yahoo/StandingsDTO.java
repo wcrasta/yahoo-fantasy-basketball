@@ -6,9 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FantasyContentDTO {
+public class StandingsDTO {
 
-  private List<UserWrapperDTO> users;
-  private LeagueDTO league;
-  private TeamDTO team;
+  private List<TeamWrapperDTO> teams;
 }

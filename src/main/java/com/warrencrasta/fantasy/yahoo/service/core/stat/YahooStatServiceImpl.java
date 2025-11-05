@@ -91,6 +91,27 @@ public class YahooStatServiceImpl implements StatService {
     return statsForTeam;
   }
 
+  @Override
+  public List<YahooMatchupDTO> getSeasonMatchupsForTeam(String teamKey) {
+    Map<String, String> uriVariables = new HashMap<>();
+    uriVariables.put("team_key", teamKey);
+    
+    var resourceUriFragment = "/team/{team_key}/matchups";
+
+    FantasyContentDTO fantasyContent =
+        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+
+    List<MatchupWrapperDTO> matchupWrappers = 
+        fantasyContent.getTeam().getMatchups();
+
+    List<YahooMatchupDTO> seasonMatchups = new ArrayList<>();
+    for (MatchupWrapperDTO wrapper : matchupWrappers) {
+      seasonMatchups.add(wrapper.getMatchup());
+    }
+
+    return seasonMatchups;
+  }
+
   // https://stackoverflow.com/questions/1102891/how-to-check-if-a-string-is-numeric-in-java
   private static boolean isNumeric(String str) {
     try {

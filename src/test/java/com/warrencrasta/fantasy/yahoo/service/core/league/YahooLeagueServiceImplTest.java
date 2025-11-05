@@ -12,6 +12,7 @@ import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
 import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
 import com.warrencrasta.fantasy.yahoo.mapper.TeamMapper;
 import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
+import com.warrencrasta.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,12 +33,14 @@ class YahooLeagueServiceImplTest {
   private final ObjectMapper objectMapper = new ObjectMapper();
   @Mock private YahooClient yahooClient;
   @Mock private TeamMapper teamMapper;
+  @Mock private StrengthOfScheduleService strengthOfScheduleService;
   private Map<String, String> uriVariables;
   private YahooLeagueServiceImpl yahooLeagueService;
-
+  
   @BeforeEach
   void init() {
-    yahooLeagueService = new YahooLeagueServiceImpl(yahooClient, teamMapper);
+    yahooLeagueService = new YahooLeagueServiceImpl(yahooClient, teamMapper, 
+      strengthOfScheduleService);
     uriVariables = new HashMap<>();
     uriVariables.put("league_key", LEAGUE_ID);
   }

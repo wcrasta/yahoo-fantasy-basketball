@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -39,9 +40,17 @@ public class OAuth2Config {
     var oauth2Client =
         new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
     oauth2Client.setDefaultClientRegistrationId("yahoo");
+
+    final int bufferSize = 2 * 1024 * 1024;
+    final ExchangeStrategies strategies = ExchangeStrategies.builder()
+        .codecs(configurer -> configurer
+            .defaultCodecs()
+            .maxInMemorySize(bufferSize))
+        .build();
+
     return WebClient.builder()
         .apply(oauth2Client.oauth2Configuration())
+        .exchangeStrategies(strategies)
         .build();
   }
-
 }

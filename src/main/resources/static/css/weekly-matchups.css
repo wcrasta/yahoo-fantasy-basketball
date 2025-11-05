@@ -64,3 +64,34 @@ table.table-bordered > thead > tr > th {
 table.table-bordered > tbody > tr > td {
   border:1px solid black;
 }
+
+.bg-danger-dark {
+    background-color: #bd2130 !important;
+    color: white;
+}
+
+.bg-danger-medium {
+    background-color: #dc3545 !important;
+    color: white;
+}
+
+.bg-danger-light {
+    background-color: #f8d7da !important;
+    color: #721c24;
+}
+
+
+.bg-success-dark {
+    background-color: #1e7e34 !important;
+    color: white;
+}
+
+.bg-success-medium {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+.bg-success-light {
+    background-color: #d4edda !important;
+    color: #155724;
+}

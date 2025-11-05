@@ -25,4 +25,6 @@ public class LeagueDTO {
   private ScoreboardDTO scoreboard;
 
   private SettingsDTO settings;
+
+  private StandingsDTO standings;
 }

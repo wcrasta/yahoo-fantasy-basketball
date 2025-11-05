@@ -31,6 +31,11 @@ public class LeagueController {
     return leagueService.getLeagueInfo(leagueId);
   }
 
+  @GetMapping("/{leagueId}/sos-info")
+  public LeagueInfoDTO getLeagueInfoWithSos(@PathVariable @NotBlank String leagueId) {
+    return leagueService.getLeagueInfoWithSos(leagueId);
+  }
+
   @GetMapping("/{leagueId}/weekly-matchups")
   public List<MatchupDTO> getWeeklyMatchups(
       @PathVariable String leagueId, @RequestParam String week, @RequestParam String teamId) {
