@@ -27,4 +27,18 @@ public class MatchupController {
     model.addAttribute("seasons", userService.getSeasonsForUser());
     return "strength-of-schedule";
   }
+
+  @GetMapping("/power-rankings")
+  public String powerRankings(Model model) {
+    var seasons = userService.getSeasonsForUser();
+    model.addAttribute("seasons", seasons);
+    return "power-rankings";
+  }
+
+  @GetMapping("/live-standings")
+  public String liveStandings(Model model) {
+    var seasons = userService.getSeasonsForUser();
+    model.addAttribute("seasons", seasons);
+    return "live-standings";
+  }
 }
