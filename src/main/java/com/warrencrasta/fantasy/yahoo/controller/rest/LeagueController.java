@@ -49,7 +49,7 @@ public class LeagueController {
     return powerRankingService.calculatePowerRankings(leagueId);
   }
 
-  @GetMapping("/{leagueId}/weekly-matchups")
+  @GetMapping("/{leagueId}/matchup-comparisons")
   public List<MatchupDTO> getWeeklyMatchups(
       @PathVariable String leagueId, @RequestParam String week, @RequestParam String teamId) {
     return scoreboardService.getWeeklyMatchups(leagueId, week, teamId);

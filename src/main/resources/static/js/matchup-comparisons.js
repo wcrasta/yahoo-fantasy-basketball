@@ -48,7 +48,7 @@ $(document).ready(function() {
 
     $('#team').change(function(){
         teamId = $(this).val();
-        let url = "/leagues/" + leagueId + "/weekly-matchups?teamId=" + teamId + "&week=" + weekNum;
+        let url = "/leagues/" + leagueId + "/matchup-comparisons?teamId=" + teamId + "&week=" + weekNum;
         function formatResults (data, type, row, meta) {
           let len = data.length;
           if (len == 0) {

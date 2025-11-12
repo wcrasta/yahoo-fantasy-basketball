@@ -65,22 +65,20 @@ table.table-bordered > tbody > tr > td {
   border:1px solid black;
 }
 
-/* Sidebar Stilleri */
 .sidebar {
-  background-color: var(--bs-body-bg); /* Arka plan rengini ana temadan alsın */
+  background-color: var(--bs-body-bg); 
   border-right: 1px solid var(--bs-border-color);
 }
 
 .sidebar .position-sticky {
-  height: calc(100vh - 56px); /* Ekran yüksekliği eksi navbar yüksekliği */
-  overflow-y: auto; /* Gerekirse scroll (kaydırma) çıksın */
+  height: calc(100vh - 56px); 
+  overflow-y: auto; 
 }
 
 .sidebar .sidebar-heading {
   font-size: .75rem;
 }
 
-/* sos.css - Sadece Renklendirme ve Düzeltmeler */
 
 #sos-table td, #sos-table th {
     vertical-align: middle;
@@ -95,13 +93,3 @@ table.table-bordered > tbody > tr > td {
     text-align: center;
 }
 
-/* --- KIRMIZI TONLARI (Vurgulu Metin) --- 
-.bg-danger-dark { color: #f5c6cb !important; font-weight: bold; }
-.bg-danger-medium { color: #f5c6cb !important; }
-.bg-danger-light { color: #f5c6cb !important; opacity: 0.7; }
-
-.bg-success-dark { color: #90f5a7 !important; font-weight: bold; }
-.bg-success-medium { color: #90f5a7 !important; }
-.bg-success-light { color: #90f5a7 !important; opacity: 0.7; }
-
-*/

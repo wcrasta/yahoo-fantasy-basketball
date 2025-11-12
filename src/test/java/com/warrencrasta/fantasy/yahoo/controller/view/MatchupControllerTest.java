@@ -33,9 +33,9 @@ class MatchupControllerTest {
   @Test
   void testWeeklyMatchups() throws Exception {
     mockMvc
-        .perform(get("/weekly-matchups"))
+        .perform(get("/matchup-comparisons"))
         .andExpect(status().isOk())
         .andExpect(model().attributeExists("seasons"))
-        .andExpect(view().name("weekly-matchups"));
+        .andExpect(view().name("matchup-comparisons"));
   }
 }

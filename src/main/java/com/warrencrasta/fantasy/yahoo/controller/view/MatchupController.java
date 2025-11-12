@@ -16,10 +16,10 @@ public class MatchupController {
     this.userService = userService;
   }
 
-  @GetMapping("/weekly-matchups")
+  @GetMapping("/matchup-comparisons")
   public String weeklyMatchups(Model model) {
     model.addAttribute("seasons", userService.getSeasonsForUser());
-    return "weekly-matchups";
+    return "matchup-comparisons";
   }
 
   @GetMapping("/strength-of-schedule")

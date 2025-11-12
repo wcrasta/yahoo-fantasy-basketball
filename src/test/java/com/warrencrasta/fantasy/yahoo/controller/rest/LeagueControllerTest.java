@@ -42,7 +42,7 @@ class LeagueControllerTest {
   void testGetWeeklyMatchups() throws Exception {
     String week = "1";
     String teamId = "395.l.37133.t.14";
-    String uri = String.format("/leagues/%s/weekly-matchups", LEAGUE_ID);
+    String uri = String.format("/leagues/%s/matchup-comparisons", LEAGUE_ID);
     mockMvc
         .perform(get(uri).param("week", week).param("teamId", teamId))
         .andExpect(status().isOk());

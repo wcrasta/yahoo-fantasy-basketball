@@ -67,7 +67,6 @@ public class YahooLeagueServiceImpl implements LeagueService {
           strengthOfScheduleService.calculateStrengthOfScheduleForLeague(leagueId, leagueDTO);
 
       for (YahooTeam team : leagueInfoDTO.getTeams()) {
-        // NOT: teamKey sorunu için getId() kullandık
         Double sosScore = sosMap.get(team.getId());
         if (sosScore != null) {
           team.setStrengthOfSchedule(sosScore);
