@@ -1,105 +1,50 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="Strength of Schedule">
-  <meta name="author" content="Warren Crasta">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Strength of Schedule</title> <link rel="icon" type="image/png" href="/images/favicon.png"/>
-  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" ...>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" ...>
-  <link href="/css/weekly-matchups.css" rel="stylesheet">
+  <title>Remaining Schedule Strength</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation Menu">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/signin">Home</a>
-      </li>
-      <li class="nav-item"> <a class="nav-link" href="/weekly-matchups">Weekly Matchups</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/strength-of-schedule">Remaining Schedule Strength<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/power-rankings">Power Rankings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/live-standings">Live Standings<span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-      <li class="nav-item">
-        <a class="nav-link" href="javascript: document.logoutForm.submit()">Log Out</a>
-        <form name="logoutForm" th:action="@{/logout}" method="post" hidden="hidden">
-          <input type="submit" value="Log Out"/>
-        </form>
-      </li>
-    </ul>
-  </div>
-</nav>
 
-<div class="d-flex" id="wrapper">
-  <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading">Seçim Yapın</div>
-    <div class="list-group list-group-flush">
-      <div class="list-group-item list-group-item-action bg-light">
-        <select name="season" id="season" required="required" style="width: 100%">
-          <option disabled="disabled" selected="selected">Select a Season</option>
-          <option th:each="season : ${seasons}" th:value="${season.id}" th:text="${season.year}"></option>
-        </select>
-      </div>
-
-      <div class="list-group-item list-group-item-action bg-light">
-        <select name="league" id="league" required="required" style="width: 100%">
-          <option disabled="disabled" selected="selected">Select a League</option>
-        </select>
-      </div>
-      
-      </div>
-  </div>
-  <div id="page-content-wrapper">
-    <nav class.="navbar navbar-expand-lg navbar-light bg-light border-bottom" aria-label="Toggle Menu">
-      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-    </nav>
-
-    <div class="container-fluid">
-      <h1 class="mt-4">Kalan Fikstür Zorluğu (SoS)</h1>
-      <p>
-        Bu tablo, ligdeki her takımın kalan maçlarının zorluğunu gösterir. 
-        Puan, takımın kalan rakiplerinin lig sıralamalarının ortalamasıdır.
+<main layout:fragment="content">
+  
+  <div class="glass-card">
+    <div class="card-header p-3">
+      <h1 class="h4 mb-0">Remaining Schedule Strength</h1>
+    </div>
+    
+    <div class="card-body">
+      <p class="text-muted small">
+        This table shows the difficulty of each team's remaining schedule. The score is the average opponent win rate for all remaining games.
       </p>
-      <p><b>Düşük Puan = Zor Fikstür</b> (Güçlü rakiplerle oynayacak)</p>
-      <p><b>Yüksek Puan = Kolay Fikstür</b> (Zayıf rakiplerle oynayacak)</p>
-      
+      <p class="text-muted small">
+        <b>High Score = Hard Schedule</b> (Playing against strong opponents)<br>
+        <b>Low Score = Easy Schedule</b> (Playing against weak opponents)
+      </p>
+
       <div class="table-responsive">
-        <table aria-label="Strength of Schedule" id="sos-table" class="table table-bordered table-hover" style="width:100%">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Sıra</th>
-              <th scope="col">Takım Adı</th>
-              <th scope="col">Fikstür Zorluk Puanı (SoS)</th>
+        <table aria-label="Strength of Schedule" id="sos-table" 
+               class="table table-striped table-hover align-middle">
+          
+          <thead class="thead-dark"> <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Team Name</th>
+              <th scope="col">Schedule Strength Pct.</th>
             </tr>
           </thead>
           <tbody>
              <tr class="table-secondary text-center">
-                <td colspan="3">Verileri görmek için bir lig seçin.</td>
+                <td colspan="3">Select a league to view data.</td>
              </tr>
           </tbody>
         </table>
       </div>
-      </div>
-  </div>
-  </div>
-<script src="https://code.jquery.com/jquery-3.5.1.js" ...></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" ...></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" ...></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ...></script>
+    </div> </div> </main>
 
-<script src="/js/strength-of-schedule.js"></script>
+<th:block layout:fragment="page-scripts">
+  <script th:src="@{/js/strength-of-schedule.js}"></script>
+</th:block>
 
 </body>
 </html>

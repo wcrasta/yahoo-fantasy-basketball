@@ -1,90 +1,49 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
 <head>
-  <meta charset="utf-8">
-  <meta name="description" content="Power Rankings">
-  <title>Power Rankings</title> <link rel="icon" type="image/png" href="/images/favicon.png"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" ...>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" ...>
-  <link href="/css/weekly-matchups.css" rel="stylesheet">
-  <link href="/css/sos.css" rel="stylesheet"> </head>
+  <title>Power Rankings</title>
+</head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation Menu">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/signin">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/weekly-matchups">Weekly Matchups</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/strength-of-schedule">Fikstür Zorluğu (SoS)</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/power-rankings">Power Rankings<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/live-standings">Live Standings<span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-    </div>
-</nav>
 
-<div class="d-flex" id="wrapper">
-  <div class="bg-light border-right" id="sidebar-wrapper">
-    <div class="sidebar-heading">Seçim Yapın</div>
-    <div class="list-group list-group-flush">
-      <div class="list-group-item list-group-item-action bg-light">
-        <select name="season" id="season" required="required" style="width: 100%">
-          <option disabled="disabled" selected="selected">Select a Season</option>
-          <option th:each="season : ${seasons}" th:value="${season.id}" th:text="${season.year}"></option>
-        </select>
-      </div>
-      <div class="list-group-item list-group-item-action bg-light">
-        <select name="league" id="league" required="required" style="width: 100%">
-          <option disabled="disabled" selected="selected">Select a League</option>
-        </select>
-      </div>
+<main layout:fragment="content">
+
+  <div class="glass-card">
+    <div class="card-header p-3">
+      <h1 class="h4 mb-0">Power Rankings</h1>
     </div>
-  </div>
-  <div id="page-content-wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" aria-label="Toggle Menu">
-      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-    </nav>
-    <div class="container-fluid">
-      <h1 class="mt-4">Power Rankings (Güç Sıralaması)</h1>
-      <p>
-        Bu sıralama, her takımın o haftaya kadar ligdeki DİĞER TÜM takımlara karşı oynadığı (varsayımsal) maçlardaki kategorik galibiyet yüzdesine (.XYZ) dayanır.
+    
+    <div class="card-body">
+      <p class="text-muted small">
+        This ranking is based on each team's categorical win percentage against ALL other teams in the league, summed up across all completed weeks.
       </p>
-      <p><b>Puan = (Kazanılan Kategoriler + (0.5 * Berabere Kalınan Kategoriler)) / Toplam Oynanan Kategoriler</b></p>
-      
+      <p class="text-muted small"><b>Score = (Total Wins + (0.5 * Total Ties)) / Total Categories Played</b></p>
+
       <div class="table-responsive">
-        <table aria-label="Power Rankings" id="pr-table" class="table table-bordered table-hover" style="width:100%">
+        <table aria-label="Power Rankings" id="pr-table" 
+               class="table table-striped table-hover align-middle">
+          
           <thead class="thead-dark">
             <tr>
-              <th scope="col">Sıra</th>
-              <th scope="col">Takım Adı</th>
-              <th scope="col">Galibiyet Yüzdesi</th>
-              <th scope="col">Derece (K-B-M)</th> 
+              <th scope="col">Rank</th>
+              <th scope="col">Team Name</th>
+              <th scope="col">Win Pct.</th>
+              <th scope="col">Record (W/L/T)</th>
             </tr>
           </thead>
           <tbody>
              <tr class="table-secondary text-center">
-                <td colspan="4">Verileri görmek için bir lig seçin.</td>
+                <td colspan="4">Select a league to view data.</td>
              </tr>
           </tbody>
         </table>
       </div>
-      </div>
-  </div>
-  </div>
-<script src="https://code.jquery.com/jquery-3.5.1.js" ...></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" ...></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" ...></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" ...></script>
+    </div> </div> </main>
 
-<script src="/js/power-rankings.js"></script>
+<th:block layout:fragment="page-scripts">
+  <script th:src="@{/js/power-rankings.js}"></script>
+</th:block>
 
 </body>
 </html>

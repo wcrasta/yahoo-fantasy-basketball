@@ -65,33 +65,43 @@ table.table-bordered > tbody > tr > td {
   border:1px solid black;
 }
 
-.bg-danger-dark {
-    background-color: #bd2130 !important;
-    color: white;
+/* Sidebar Stilleri */
+.sidebar {
+  background-color: var(--bs-body-bg); /* Arka plan rengini ana temadan alsın */
+  border-right: 1px solid var(--bs-border-color);
 }
 
-.bg-danger-medium {
-    background-color: #dc3545 !important;
-    color: white;
+.sidebar .position-sticky {
+  height: calc(100vh - 56px); /* Ekran yüksekliği eksi navbar yüksekliği */
+  overflow-y: auto; /* Gerekirse scroll (kaydırma) çıksın */
 }
 
-.bg-danger-light {
-    background-color: #f8d7da !important;
-    color: #721c24;
+.sidebar .sidebar-heading {
+  font-size: .75rem;
 }
 
+/* sos.css - Sadece Renklendirme ve Düzeltmeler */
 
-.bg-success-dark {
-    background-color: #1e7e34 !important;
-    color: white;
+#sos-table td, #sos-table th {
+    vertical-align: middle;
+    text-align: center;
+}
+#pr-table td, #pr-table th {
+    vertical-align: middle;
+    text-align: center;
+}
+#live-standings-table td, #live-standings-table th {
+    vertical-align: middle;
+    text-align: center;
 }
 
-.bg-success-medium {
-    background-color: #28a745 !important;
-    color: white;
-}
+/* --- KIRMIZI TONLARI (Vurgulu Metin) --- 
+.bg-danger-dark { color: #f5c6cb !important; font-weight: bold; }
+.bg-danger-medium { color: #f5c6cb !important; }
+.bg-danger-light { color: #f5c6cb !important; opacity: 0.7; }
 
-.bg-success-light {
-    background-color: #d4edda !important;
-    color: #155724;
-}
+.bg-success-dark { color: #90f5a7 !important; font-weight: bold; }
+.bg-success-medium { color: #90f5a7 !important; }
+.bg-success-light { color: #90f5a7 !important; opacity: 0.7; }
+
+*/

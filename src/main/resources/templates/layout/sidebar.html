@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar" class="list-group list-group-flush">
+  
+  <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted text-uppercase">
+    <span>Select Options</span>
+  </h6>
+
+  <div class="list-group-item list-group-item-action bg-transparent border-0 py-2">
+    <label for="season" class="form-label small">Season</label>
+    <select name="season" id="season" required="required" class="form-select form-select-sm">
+      <option disabled="disabled" selected="selected">Select a Season</option>
+      <option th:each="season : ${seasons}" th:value="${season.id}" th:text="${season.year}"></option>
+    </select>
+  </div>
+
+  <div class="list-group-item list-group-item-action bg-transparent border-0 py-2">
+    <label for="league" class="form-label small">League</label>
+    <select name="league" id="league" required="required" class="form-select form-select-sm">
+      <option disabled="disabled" selected="selected">Select a League</option>
+    </select>
+  </div>
+
+  <th:block th:if="${#httpServletRequest.getRequestURI() == '/weekly-matchups'}">
+    
+    <hr class="my-2"> 
+    
+    <div class="list-group-item list-group-item-action bg-transparent border-0 py-2">
+      <label for="week" class="form-label small">Week</label>
+      <select name="week" id="week" required="required" class="form-select form-select-sm">
+        <option disabled="disabled" selected="selected">Select a Week</option>
+      </select>
+    </div>
+
+    <div class="list-group-item list-group-item-action bg-transparent border-0 py-2">
+      <label for="team" class="form-label small">Team</label>
+      <select name="team" id="team" required="required" class="form-select form-select-sm">
+        <option disabled="disabled" selected="selected">Select a Team</option>
+      </select>
+    </div>
+  </th:block>
+
+</div>
+
+</body>
+</html>

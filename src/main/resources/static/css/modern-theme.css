@@ -1,0 +1,115 @@
+[data-bs-theme="dark"] body {
+    background-color: #0f172a; /* (Eski tarayıcılar için) */
+    background-image: radial-gradient(at 0% 0%, hsla(253, 40%, 21%, 0.3) 0px, transparent 50%), 
+                      radial-gradient(at 100% 90%, hsla(242, 60%, 25%, 0.3) 0px, transparent 50%);
+    background-attachment: fixed;
+    background-size: cover;
+    color: #e2e8f0; /* Varsayılan metin rengi */
+}
+
+/* ---------------------------------- */
+/* 2. "CAM" KART STİLİ */
+/* ---------------------------------- */
+.glass-card {
+    /* Daha açık, daha "buzlu" bir cam efekti için beyaz tonlu bir arka plan */
+    background: rgba(255, 255, 255, 0.05); /* Yarı saydam BEYAZ */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    
+    /* data-bs-theme="dark" sayesinde metin renkleri zaten açık, 
+       ama kartın kendi metin rengini de garantileyelim */
+    color: #e2e8f0 !important; 
+}
+
+.glass-card .card-header {
+    background: rgba(255, 255, 255, 0.1); /* Başlık biraz daha belirgin */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.glass-card .card-body p {
+    color: #cbd5e1 !important; /* Açıklama metinlerini biraz daha soluk yap (slate-300) */
+}
+
+/* Tabloyu da cam temasına uydur */
+.glass-card table.table-striped {
+    /* Çizgili tablonun arka plan renklerini ayarla */
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+    --bs-table-color: #e2e8f0;
+    --bs-table-border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ---------------------------------- */
+/* 3. CAM MENÜLER */
+/* ---------------------------------- */
+.glass-navbar {
+    background: rgba(20, 20, 35, 0.35) !important;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.125) !important;
+}
+
+.glass-sidebar {
+    background: rgba(20, 20, 35, 0.35) !important;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border-right: 1px solid rgba(255, 255, 255, 0.125) !important;
+}
+
+/* Sidebar dropdownları (data-bs-theme="dark" sayesinde bunlar otomatik düzelmeli 
+   ancak biz yine de garantileyelim) */
+#sidebarMenu .form-select {
+    background-color: rgba(15, 23, 42, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+#sidebarMenu .form-select:focus {
+    border-color: #a855f7; /* Vurgu için Mor */
+    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+.bootstrap-select .dropdown-toggle {
+    background-color: rgba(15, 23, 42, 0.5) !important; /* 'form-select' stilimizden */
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--bs-border-radius) !important;
+}
+.bootstrap-select .dropdown-toggle:focus,
+.bootstrap-select .dropdown-toggle.show {
+    border-color: #a855f7 !important; /* Mor Vurgu */
+    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25) !important;
+}
+.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
+    color: #e2e8f0; /* Seçili metin rengi */
+}
+
+/* Açıldığında çıkan liste (O SİZİN GÖNDERDİĞİNİZ DEMODE GRİ KUTU) */
+.bootstrap-select .dropdown-menu {
+    background: rgba(30, 30, 47, 0.9) !important; /* Cam efekti */
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+/* Liste içindeki her bir seçenek */
+.bootstrap-select .dropdown-item {
+    color: #e2e8f0;
+}
+.bootstrap-select .dropdown-item.selected,
+.bootstrap-select .dropdown-item.active {
+    background-color: #a855f7; /* Mor Seçim Rengi */
+    color: white;
+}
+.bootstrap-select .dropdown-item:hover,
+.bootstrap-select .dropdown-item:focus {
+    background-color: rgba(168, 85, 247, 0.25); /* Mor Hover Rengi */
+    color: white;
+}
+.bootstrap-select .bs-searchbox .form-control {
+    background-color: rgba(15, 23, 42, 0.7) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
