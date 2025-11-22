@@ -15,7 +15,7 @@ addons:
   sonarcloud:
     organization: "wcrasta"
     token:
-      secure: "R7ov+iLX2dFSQsXj4mOnFnF7fKvnZBtiiSsk1Hh/hbpJBuMTO1iUidrDAfKdSVA7s+2j1cXGWU8OPbtVHTC/aoQXhHhzwFv5rciqTJSFHQx3RS6yxN8P1eSGIjYkKz5mSiwT2se+K4TBs5y6IIg5Z27a829AeqXbJk1J2uBZnwoFDgzphSQQTTUwoKaVLPBOp/B5KuyKvpDkIHF7jJ2hxhHR5YWy0TJcWS2n9tJcKfNIgibAvOWcvLfP4U+ek/1suLRu0no/kMmmJsiSWlWOSE+LwAcLyK5XidM4nshUjpVVKKIi4vJbxAjwTG6WYh/ZZvTWjmhdMxIctMjRz7c+i97/p4QD3qC7mxxhoGjbfnHaeUErKkryoNUdvEg2kbVwO+iLUg1OVs7S3mFW7BwD6ILlyDwDvIoaGMDmtGlyz6Vl5sYBkI60fADVgwTjCgFFq5o9+xsvCXFGIpRcJB1lSZOy7ayQlkTgzACXBHt/P6ee1wfrtkh200IUeXAuG53b7ZQGvhAovX7JunfM99x2IcS9l1gLQawqPKCTDhMX+OwbJcpKcd6Cmly4c8MIQXKHq7OqRoCpEvlHsi6MXJOtcZxbvKgaRof6JnoCP9uxnA4l8EN4XFUEPbN9CG1S25+k0VHJPLlYn/0392l8e9pu2ajfv91f/JTPC42dW3JvZRw="
+      secure: "JysVmOK4vhzxdPh3V8Pny9dos60cYxlaXCQ50iO6Z35enlwFDdnW4Qd6d0BLQ1gHRuU6GZepaRPAih/qYMCx/K0JnTYQddY+Uyley4HTYu0Foe28ITfsoCv2y64JPQ+DbQSU3KMI5Sy9seUHKRpgwyscurOb1/Ci76dFIet2YS2Xh4xfv2/IKf5BmmJOFn9a7Ei1y0pHZAo5NuPqQB9F7xu2D+KbqJ9Q4uRyXpuTq0plIhPE3374Ss7seXyeQSq7J3nLYZyQgXCyruDwlolfsVjwZFBXhKjlwxcgrdEFlb02tbL1XrKlFrozG2tbBHGAj1MtMgtvYhsIIMsiB9mFvuUNiOO2Y//zZXfcLPXZpc23kSKYdtc+C41575RIMJ/n2WSrzAeXq2rSNRWOCmE5/rrZ2gMdmlUU1ZlvfTAIODRCIOKhiT+2feGcgJPGAxY6yp929zfvD6cMT0bL0DjENQrBhwTOc/TEsVevXvMFAz2kWRIgVFTGj6doCds8sqtwvMnxOt7rR6fIcf9NafxgyI9g8B/6p9mionb7/teHsnBTYVC39QKrBdxRDalpeZnyu5WOP2a2HGE17kEXhLHEQNEsoVkomuXKG6dgDiivjrVNFuqldwfPKXMD8BkRapJysI9w0BNoUIdXmjRQpEONdUq5qYEIZIaz3w0mr/8pz5c="
 script:
   - mvn clean verify sonar:sonar -Pcoverage
 
@@ -32,12 +32,12 @@ deploy:
     skip_cleanup: true
     on: &2
       repo: wcrasta/yahoo-fantasy-basketball
-    bucket: yahoo-fantasy-wc-4
+    bucket: yahoo-fantasy-wc-5
     region: us-east-2
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: yahoo-fantasy-wc-4
+    bucket: yahoo-fantasy-wc-5
     key: yahoo-fantasy-basketball.zip
     bundle_type: zip
     application: yahoo-fantasy-basketball

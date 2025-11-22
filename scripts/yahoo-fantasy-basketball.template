@@ -227,7 +227,7 @@
             },
             "Properties": {
                 "InstanceType": "t2.micro",
-                "ImageId": "ami-097a2df4ac947655f",
+                "ImageId": "ami-0911fd09f1f167a99",
                 "IamInstanceProfile": {
                     "Ref": "CodeDeployEc2InstanceProfile"
                 },
@@ -312,7 +312,7 @@
         "S3Bucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": "yahoo-fantasy-wc-4"
+                "BucketName": "yahoo-fantasy-wc-5"
             },
             "Metadata": {
                 "AWS::CloudFormation::Designer": {

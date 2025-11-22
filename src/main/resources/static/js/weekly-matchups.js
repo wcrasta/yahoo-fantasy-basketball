@@ -1,9 +1,18 @@
+function formatResults (data, type, row, meta) {
+  let len = data.length;
+  if (len == 0) {
+      return data;
+  }
+  return len + " (" + data.join(', ') + ")";
+}
+
 $(document).ready(function() {
     let seasonId;
     let leagueId;
     let teams;
     let weekNum;
     let teamId;
+
     $('#season').change(function(){
       seasonId = $(this).val();
       let url = "/seasons/" + seasonId + "/leagues";
@@ -49,13 +58,6 @@ $(document).ready(function() {
     $('#team').change(function(){
         teamId = $(this).val();
         let url = "/leagues/" + leagueId + "/weekly-matchups?teamId=" + teamId + "&week=" + weekNum;
-        function formatResults (data, type, row, meta) {
-          let len = data.length;
-          if (len == 0) {
-              return data;
-          }
-          return len + " (" + data.join(', ') + ")";
-        }
         $('#matchups').dataTable({
                 "bDestroy": true,
                 "createdRow": function( row, data, dataIndex ) {
