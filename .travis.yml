@@ -14,10 +14,8 @@ before_install:
 addons:
   sonarcloud:
     organization: "wcrasta"
-    token:
-      secure: "JysVmOK4vhzxdPh3V8Pny9dos60cYxlaXCQ50iO6Z35enlwFDdnW4Qd6d0BLQ1gHRuU6GZepaRPAih/qYMCx/K0JnTYQddY+Uyley4HTYu0Foe28ITfsoCv2y64JPQ+DbQSU3KMI5Sy9seUHKRpgwyscurOb1/Ci76dFIet2YS2Xh4xfv2/IKf5BmmJOFn9a7Ei1y0pHZAo5NuPqQB9F7xu2D+KbqJ9Q4uRyXpuTq0plIhPE3374Ss7seXyeQSq7J3nLYZyQgXCyruDwlolfsVjwZFBXhKjlwxcgrdEFlb02tbL1XrKlFrozG2tbBHGAj1MtMgtvYhsIIMsiB9mFvuUNiOO2Y//zZXfcLPXZpc23kSKYdtc+C41575RIMJ/n2WSrzAeXq2rSNRWOCmE5/rrZ2gMdmlUU1ZlvfTAIODRCIOKhiT+2feGcgJPGAxY6yp929zfvD6cMT0bL0DjENQrBhwTOc/TEsVevXvMFAz2kWRIgVFTGj6doCds8sqtwvMnxOt7rR6fIcf9NafxgyI9g8B/6p9mionb7/teHsnBTYVC39QKrBdxRDalpeZnyu5WOP2a2HGE17kEXhLHEQNEsoVkomuXKG6dgDiivjrVNFuqldwfPKXMD8BkRapJysI9w0BNoUIdXmjRQpEONdUq5qYEIZIaz3w0mr/8pz5c="
 script:
-  - mvn clean verify sonar:sonar -Pcoverage
+  - mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
 
 before_deploy:
   - zip -r yahoo-fantasy-basketball *
@@ -32,12 +30,12 @@ deploy:
     skip_cleanup: true
     on: &2
       repo: wcrasta/yahoo-fantasy-basketball
-    bucket: yahoo-fantasy-wc-5
+    bucket: yahoo-fantasy-wc-6
     region: us-east-2
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: yahoo-fantasy-wc-5
+    bucket: yahoo-fantasy-wc-6
     key: yahoo-fantasy-basketball.zip
     bundle_type: zip
     application: yahoo-fantasy-basketball
